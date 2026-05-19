@@ -2,11 +2,14 @@
 	import { Calendar } from "$lib/components/ui/calendar/index.js";
 	import NavUser from "./sidebar/nav-user.svelte";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+	import * as Drawer from "$lib/components/ui/drawer/index.js";
+	import { Button } from "$lib/components/ui/button/index.js";
 	import PlusIcon from "@lucide/svelte/icons/plus";
 	import { ModeWatcher, toggleMode } from "mode-watcher";
 	import type { PageServerData } from "./$types";
 	import { getLocalTimeZone, today } from "@internationalized/date";
 	import logo from "$lib/assets/timer.png";
+	import { buttonVariants } from "$lib/components/ui/button";
 
 	let {
 		data,
@@ -50,17 +53,84 @@
 		<Sidebar.Footer>
 			<Sidebar.Menu>
 				<Sidebar.MenuItem>
-					<Sidebar.MenuButton>
-						<PlusIcon />
-						<span>Tambah Mata Pelajaran</span>
-					</Sidebar.MenuButton>
+					<Drawer.Root>
+						<Drawer.Trigger class="w-full">
+							<Sidebar.MenuButton>
+								<PlusIcon />
+								<span>Tambah Mata Pelajaran</span>
+							</Sidebar.MenuButton>
+						</Drawer.Trigger>
+
+						<Drawer.Content>
+							<div class="mx-auto w-full max-w-sm">
+								<Drawer.Header>
+									<Drawer.Title>Move Goal</Drawer.Title>
+									<Drawer.Description>
+										Set your daily activity goal.
+									</Drawer.Description>
+								</Drawer.Header>
+
+								<div class="p-4 pb-0">
+									<div
+										class="flex items-center justify-center space-x-2"
+									>
+										<Button
+											variant="outline"
+											size="icon"
+											class="size-8 shrink-0 rounded-full"
+										>
+											<span class="sr-only">Decrease</span>
+										</Button>
+
+										<div class="flex-1 text-center">
+											<div
+												class="text-7xl font-bold tracking-tighter"
+											>
+												100
+											</div>
+											<div
+												class="text-muted-foreground text-[0.70rem] uppercase"
+											>
+												Calories/day
+											</div>
+										</div>
+
+										<Button
+											variant="outline"
+											size="icon"
+											class="size-8 shrink-0 rounded-full"
+										>
+											<PlusIcon />
+											<span class="sr-only">Increase</span>
+										</Button>
+									</div>
+								</div>
+
+								<Drawer.Footer>
+									<Button>Submit</Button>
+									<Drawer.Close
+										class={buttonVariants({ variant: "outline" })}
+									>
+										Cancel
+									</Drawer.Close>
+								</Drawer.Footer>
+							</div>
+						</Drawer.Content>
+					</Drawer.Root>
 				</Sidebar.MenuItem>
 			</Sidebar.Menu>
 		</Sidebar.Footer>
+
 		<Sidebar.Rail />
 	</Sidebar.Root>
 
 	<main>
 		<Sidebar.Trigger />
+		<form method="post" action="?/signOut">
+			<button
+				class="rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
+				>Sign out</button
+			>
+		</form>
 	</main>
 </Sidebar.Provider>

@@ -1,19 +1,29 @@
 <script lang="ts">
-	import BadgeCheckIcon from "@lucide/svelte/icons/badge-check";
-	import BellIcon from "@lucide/svelte/icons/bell";
 	import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
-	import CreditCardIcon from "@lucide/svelte/icons/credit-card";
 	import LogOutIcon from "@lucide/svelte/icons/log-out";
-	import SparklesIcon from "@lucide/svelte/icons/sparkles";
 
 	import * as Avatar from "$lib/components/ui/avatar/index.js";
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import { useSidebar } from "$lib/components/ui/sidebar/index.js";
+	import { goto, invalidateAll } from "$app/navigation";
 
 	let { user }: { user: { name: string; email: string; avatar: string } } =
 		$props();
 	const sidebar = useSidebar();
+
+	async function user_logout() {
+		console.log("HI");
+		await fetch("/admin/dashboard?/signOut", {
+			method: "POST",
+			headers: {
+				"content-type": "application/x-www-form-urlencoded",
+			},
+			body: "",
+		});
+		await invalidateAll();
+		goto("/admin/login");
+	}
 </script>
 
 <Sidebar.Menu>
@@ -58,10 +68,14 @@
 						</div>
 					</div>
 				</DropdownMenu.Label>
-				<DropdownMenu.Item>
-					<LogOutIcon />
-					Log out
-				</DropdownMenu.Item>
+				<form method="post" action="/admin/dashboard?/signOut">
+					<DropdownMenu.Item asChild>
+						<button type="submit" class="w-full flex items-center gap-2">
+							<LogOutIcon />
+							Log out
+						</button>
+					</DropdownMenu.Item>
+				</form>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 	</Sidebar.MenuItem>
