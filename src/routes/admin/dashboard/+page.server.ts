@@ -11,3 +11,10 @@ export const actions: Actions = {
 		return redirect(302, '/admin/login');
 	}
 };
+
+export const load: PageServerLoad = (event) => {
+	if (!event.locals.user) {
+		return redirect(302, '/admin/login');
+	}
+	return { user: event.locals.user };
+};
