@@ -39,6 +39,7 @@
 			<Sidebar.Group class="px-0">
 				<Sidebar.GroupContent>
 					<Calendar
+						locale="id-ID"
 						bind:value={calValue}
 						captionLayout="dropdown"
 						type="single"
