@@ -4,7 +4,7 @@
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import * as Drawer from "$lib/components/ui/drawer/index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
-	import PlusIcon from "@lucide/svelte/icons/plus";
+	import Settings from "@lucide/svelte/icons/settings";
 	import { ModeWatcher, toggleMode } from "mode-watcher";
 	import type { PageServerData } from "./$types";
 	import { getLocalTimeZone, today } from "@internationalized/date";
@@ -56,8 +56,8 @@
 					<Drawer.Root>
 						<Drawer.Trigger class="w-full">
 							<Sidebar.MenuButton>
-								<PlusIcon />
-								<span>Tambah Mata Pelajaran</span>
+								<Settings />
+								<span>Mata Pelajaran</span>
 							</Sidebar.MenuButton>
 						</Drawer.Trigger>
 
@@ -100,7 +100,7 @@
 											size="icon"
 											class="size-8 shrink-0 rounded-full"
 										>
-											<PlusIcon />
+											<Settings />
 											<span class="sr-only">Increase</span>
 										</Button>
 									</div>
