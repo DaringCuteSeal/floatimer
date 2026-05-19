@@ -6,14 +6,20 @@
 	import type { ActionData } from "./$types";
 	import { enhance } from "$app/forms";
 	let { form }: { form: ActionData } = $props();
+	import Zap from "@lucide/svelte/icons/zap";
 </script>
 
 <div class="bg">
-	<form method="post" action="?/signInEmail" use:enhance>
-		<div class="flex-col flex gap-2 p-8 items-center justify-center h-screen">
+	<div class="bg min-h-screen flex flex-col">
+		<form
+			method="post"
+			action="?/signInEmail"
+			use:enhance
+			class="flex-1 flex items-center justify-center p-8"
+		>
 			<Card.Root class="-my-4 w-full max-w-sm">
 				<Card.Header>
-					<Card.Title>Login Ke Dashboard</Card.Title>
+					<Card.Title>Login ke Dashboard</Card.Title>
 					<Card.Description
 						>Masukkan kredensialmu untuk mengakses dashboard.</Card.Description
 					>
@@ -52,8 +58,20 @@
 					<Button type="submit" class="w-full">Login</Button>
 				</Card.Footer>
 			</Card.Root>
+		</form>
+
+		<div class="flex justify-center pb-4">
+			<p>
+				Menggunakan
+				<u
+					><a href="https://github.com/Daringcuteseal/floatimer">
+						Floatimer</a
+					></u
+				>.
+				<Zap class="inline" />
+			</p>
 		</div>
-	</form>
+	</div>
 </div>
 
 <style>
