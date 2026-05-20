@@ -5,11 +5,15 @@
 	import * as Drawer from "$lib/components/ui/drawer/index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
 	import Settings from "@lucide/svelte/icons/settings";
+	import { Input } from "$lib/components/ui/input/index.js";
 	import { ModeWatcher, toggleMode } from "mode-watcher";
 	import type { PageServerData } from "./$types";
 	import { getLocalTimeZone, today } from "@internationalized/date";
 	import logo from "$lib/assets/timer.png";
 	import { buttonVariants } from "$lib/components/ui/button";
+
+	import SquarePen from "@lucide/svelte/icons/square-pen";
+	import Trash2 from "@lucide/svelte/icons/trash-2";
 
 	let {
 		data,
@@ -25,6 +29,16 @@
 	};
 
 	let calValue = $state(today(getLocalTimeZone()));
+	let newSubject = $state("");
+	function addSubject() {}
+	type Subject = {
+		id: number;
+		name: string;
+		is_editing: boolean
+	};
+	let subjects: Array<Subject> = [{ id: 1, name: "Matematika", is_editing: false }];
+	function deleteSubject(id: number) {}
+	function editSubject(id: number) {}
 </script>
 
 <ModeWatcher />
@@ -63,56 +77,63 @@
 						</Drawer.Trigger>
 
 						<Drawer.Content>
-							<div class="mx-auto w-full max-w-sm">
+							<div class="mx-auto w-full max-w-md">
 								<Drawer.Header>
-									<Drawer.Title>Move Goal</Drawer.Title>
+									<Drawer.Title>Mata Pelajaran</Drawer.Title>
 									<Drawer.Description>
-										Set your daily activity goal.
+										Tambah, edit, atau hapus mata pelajaran.
 									</Drawer.Description>
 								</Drawer.Header>
 
-								<div class="p-4 pb-0">
-									<div
-										class="flex items-center justify-center space-x-2"
-									>
-										<Button
-											variant="outline"
-											size="icon"
-											class="size-8 shrink-0 rounded-full"
-										>
-											<span class="sr-only">Decrease</span>
-										</Button>
-
-										<div class="flex-1 text-center">
-											<div
-												class="text-7xl font-bold tracking-tighter"
-											>
-												100
-											</div>
-											<div
-												class="text-muted-foreground text-[0.70rem] uppercase"
-											>
-												Calories/day
-											</div>
-										</div>
-
-										<Button
-											variant="outline"
-											size="icon"
-											class="size-8 shrink-0 rounded-full"
-										>
-											<Settings />
-											<span class="sr-only">Increase</span>
-										</Button>
+								<div class="p-4 space-y-2">
+									<div class="flex gap-2">
+										<Input
+											placeholder="Nama mata pelajaran baru..."
+											bind:value={newSubject}
+										/>
+										<Button onclick={addSubject}>Tambah</Button>
 									</div>
 								</div>
 
+								<div class="px-4 pb-4 space-y-2">
+									{#if subjects.length === 0}
+										<div
+											class="text-sm text-muted-foreground text-center py-6"
+										>
+											Belum ada mata pelajaran.
+										</div>
+									{:else}
+										{#each subjects as subject (subject.id)}
+											<div
+												class="flex items-center justify-between rounded-md border p-2"
+											>
+												<span class="text-sm">{subject.name}</span>
+
+												<div class="flex gap-2">
+													<Button
+														variant="ghost"
+														onclick={() =>
+															editSubject(subject.id)}
+														><SquarePen />Sunting</Button
+													>
+
+													<Button
+														variant="destructive"
+														onclick={() =>
+															deleteSubject(subject.id)}
+														><Trash2 />Hapus</Button
+													>
+												</div>
+											</div>
+										{/each}
+									{/if}
+								</div>
+
 								<Drawer.Footer>
-									<Button>Submit</Button>
 									<Drawer.Close
 										class={buttonVariants({ variant: "outline" })}
 									>
-										Cancel
+										Selesai
 									</Drawer.Close>
 								</Drawer.Footer>
 							</div>
@@ -127,11 +148,5 @@
 
 	<main>
 		<Sidebar.Trigger />
-		<form method="post" action="?/signOut">
-			<button
-				class="rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
-				>Sign out</button
-			>
-		</form>
 	</main>
 </Sidebar.Provider>
