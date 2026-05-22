@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { Calendar } from "$lib/components/ui/calendar/index.js";
 	import NavUser from "./sidebar/nav-user.svelte";
+	import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import * as Drawer from "$lib/components/ui/drawer/index.js";
+	import * as AlertDialog from "$lib/components/ui/alert-dialog/index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
 	import Settings from "@lucide/svelte/icons/settings";
+	import { invalidateAll } from "$app/navigation";
 	import { Input } from "$lib/components/ui/input/index.js";
 	import { ModeWatcher, toggleMode } from "mode-watcher";
 	import type { PageServerData } from "./$types";
@@ -14,6 +17,7 @@
 
 	import SquarePen from "@lucide/svelte/icons/square-pen";
 	import Trash2 from "@lucide/svelte/icons/trash-2";
+	import { enhance } from "$app/forms";
 
 	let {
 		data,
@@ -28,15 +32,9 @@
 		avatar: logo,
 	};
 
+	// tambahin metadata is_editing
+	// hehe as if it does anything when compiled
 	let calValue = $state(today(getLocalTimeZone()));
-	let newSubject = $state("");
-	function addSubject() {}
-	type Subject = {
-		id: number;
-		name: string;
-		is_editing: boolean
-	};
-	let subjects: Array<Subject> = [{ id: 1, name: "Matematika", is_editing: false }];
 	function deleteSubject(id: number) {}
 	function editSubject(id: number) {}
 </script>
@@ -87,45 +85,92 @@
 
 								<div class="p-4 space-y-2">
 									<div class="flex gap-2">
-										<Input
-											placeholder="Nama mata pelajaran baru..."
-											bind:value={newSubject}
-										/>
-										<Button onclick={addSubject}>Tambah</Button>
+										<form
+											method="post"
+											action="?/addSubject"
+											use:enhance
+											class="flex-1 flex flex-row gap-3"
+										>
+											<Input
+												name="name"
+												placeholder="Nama mata pelajaran baru..."
+												required
+											/>
+											<Button type="submit">Tambah</Button>
+										</form>
 									</div>
 								</div>
 
 								<div class="px-4 pb-4 space-y-2">
-									{#if subjects.length === 0}
+									{#if data.subjects.length === 0}
 										<div
 											class="text-sm text-muted-foreground text-center py-6"
 										>
 											Belum ada mata pelajaran.
 										</div>
 									{:else}
-										{#each subjects as subject (subject.id)}
-											<div
-												class="flex items-center justify-between rounded-md border p-2"
-											>
-												<span class="text-sm">{subject.name}</span>
-
-												<div class="flex gap-2">
-													<Button
-														variant="ghost"
-														onclick={() =>
-															editSubject(subject.id)}
-														><SquarePen />Sunting</Button
+										<ScrollArea class="h-72 rounded-md border">
+											{#each data.subjects as subject (subject.id)}
+												<div
+													class="flex items-center justify-between rounded-md border p-2"
+												>
+													<span class="text-sm"
+														>{subject.name}</span
 													>
 
-													<Button
-														variant="destructive"
-														onclick={() =>
-															deleteSubject(subject.id)}
-														><Trash2 />Hapus</Button
-													>
+													<div class="flex gap-2">
+														<Button
+															variant="ghost"
+															onclick={() =>
+																editSubject(subject.id)}
+															><SquarePen />Sunting</Button
+														>
+														<AlertDialog.Root>
+															<AlertDialog.Trigger
+																class={buttonVariants({
+																	variant: "destructive",
+																})}
+															>
+																<Trash2 />Hapus
+															</AlertDialog.Trigger>
+
+															<AlertDialog.Content>
+																<AlertDialog.Header>
+																	<AlertDialog.Title
+																		>Benar-benar Yakin?</AlertDialog.Title
+																	>
+																	<AlertDialog.Description>
+																		Yakin untuk menghapus mata
+																		pelajaran?
+																	</AlertDialog.Description>
+																</AlertDialog.Header>
+																<AlertDialog.Footer>
+																	<AlertDialog.Cancel
+																		>Batal</AlertDialog.Cancel
+																	>
+																	<form
+																		method="post"
+																		action="?/deleteSubject"
+																		use:enhance
+																	>
+																		<AlertDialog.Action>
+																			<input
+																				type="hidden"
+																				name="id"
+																				value={subject.id}
+																			/>
+																			<button type="submit"
+																				>Hapus</button
+																			>
+																		</AlertDialog.Action>
+																	</form>
+																</AlertDialog.Footer>
+															</AlertDialog.Content>
+														</AlertDialog.Root>
+													</div>
 												</div>
-											</div>
-										{/each}
+											{/each}
+										</ScrollArea>
 									{/if}
 								</div>
 
