@@ -148,8 +148,9 @@
 
 		<Sidebar.Rail />
 	</Sidebar.Root>
-
-	<main>
-		<Sidebar.Trigger />
-	</main>
+	<Sidebar.Inset>
+		<header class="flex h-12 items-center justify-between px-4">
+			<Sidebar.Trigger />
+		</header>
+	</Sidebar.Inset>
 </Sidebar.Provider>
