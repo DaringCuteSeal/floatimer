@@ -32,8 +32,6 @@
 		avatar: logo,
 	};
 
-	// tambahin metadata is_editing
-	// hehe as if it does anything when compiled
 	let calValue = $state(today(getLocalTimeZone()));
 </script>
 
