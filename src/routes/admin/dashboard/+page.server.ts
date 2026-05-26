@@ -4,7 +4,7 @@ import type { PageServerLoad } from './$types';
 import { auth } from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import { subjects } from '$lib/server/db/subjects.schema';
-import { eq } from 'drizzle-orm';
+import { eq, type InferSelectModel } from 'drizzle-orm';
 
 export const actions: Actions = {
 	signOut: async (event) => {
@@ -13,7 +13,7 @@ export const actions: Actions = {
 		});
 		return redirect(302, '/admin/login');
 	},
-	default: async ({ request }) => {
+	renameSubject: async ({ request }) => {
 		const formData = await request.formData();
 		const id = formData.get('id')?.toString() ?? '';
 		const idNum = Number(id);
@@ -33,12 +33,48 @@ export const actions: Actions = {
 		return {
 			success: true,
 		}
+	},
+	deleteSubject: async ({ request }) => {
+		const formData = await request.formData();
+		const id = formData.get('id')?.toString() ?? '';
+		const idNum = Number(id);
+		if (isNaN(idNum)) {
+			return error(400, "ID mata pelajaran tidak ditemukan dalam database!");
+		}
+
+		let newData;
+		try {
+			newData = await db.delete(subjects).where(eq(subjects.id, idNum));
+		} catch (err) {
+			return error(500, "Gagal menghapus mata pelajaran!");
+		}
+		return {
+			success: true,
+		}
+	},
+	addSubject: async ({ request }) => {
+		const formData = await request.formData();
+		const name = formData.get('name')?.toString() ?? '';
+		try {
+			await db.insert(subjects).values({
+				name
+			});
+		} catch (err) {
+			return error(500, "Gagal menghapus mata pelajaran!");
+		}
 	}
 };
 
-export const load: PageServerLoad = (event) => {
+export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
 		return redirect(302, '/admin/login');
 	}
-	return { user: event.locals.user };
+
+	let subjectsData: Array<InferSelectModel<typeof subjects>>;
+	try {
+		subjectsData = await db.query.subjects.findMany({ orderBy: (subjects, { asc, desc }) => [desc(subjects.id), desc(subjects.name)], });
+	} catch (err) {
+		return error(500, "Gagal mendapatkan daftar mata pelajaran!");
+	}
+	return { user: event.locals.user, subjects: subjectsData };
 };

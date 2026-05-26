@@ -106,7 +106,7 @@
 										<div
 											class="text-sm text-muted-foreground text-center py-6"
 										>
-											Belum ada mata pelajaran.
+											Belum ada mata pelajaran. Tambah satu?
 										</div>
 									{:else}
 										<ScrollArea class="h-72 rounded-md border">
