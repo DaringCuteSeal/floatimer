@@ -263,7 +263,7 @@
 			</div>
 		</header>
 		<div class="flex flex-1 flex-col gap-4 p-4">
-			<Editor />
+			<Editor timersData={data.timers} />
 		</div>
 	</Sidebar.Inset>
 </Sidebar.Provider>

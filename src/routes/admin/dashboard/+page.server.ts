@@ -95,11 +95,16 @@ export const load: PageServerLoad = async (event) => {
 
 	try {
 		timersData = await db.query.timers.findMany({
-			where: (timers, { and, gte, lt }) => and(
-				gte(timers.time_start, startDate),
-				lt(timers.time_end, endDate)
-			)
-		})
+			where: (timers, { and, gte, lt }) =>
+				and(
+					gte(timers.time_start, startDate),
+					lt(timers.time_end, endDate)
+				),
+
+			with: {
+				subject: true
+			}
+		});
 	} catch (err) {
 		return error(500, "Gagal mendapatkan daftar timer!");
 	}

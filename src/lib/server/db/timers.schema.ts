@@ -1,5 +1,6 @@
 import { pgTable, serial, text, time, timestamp, varchar } from "drizzle-orm/pg-core";
 import { subjects } from "./subjects.schema";
+import { relations } from "drizzle-orm";
 
 export const timers = pgTable('timers', {
 	id: serial('id').primaryKey().unique(),
@@ -8,3 +9,10 @@ export const timers = pgTable('timers', {
 	time_start: timestamp("time_start", { precision: 6, withTimezone: true }),
 	time_end: timestamp("time_end", { precision: 6, withTimezone: true }),
 });
+
+export const timersRelations = relations(timers, ({ one }) => ({
+	subject: one(subjects, {
+		fields: [timers.subject],
+		references: [subjects.id]
+	})
+}));
