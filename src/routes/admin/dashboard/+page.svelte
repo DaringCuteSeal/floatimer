@@ -3,6 +3,7 @@
 	import NavUser from "./sidebar/nav-user.svelte";
 	import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+	import * as Card from "$lib/components/ui/card/index.js";
 	import * as Drawer from "$lib/components/ui/drawer/index.js";
 	import { Label } from "$lib/components/ui/label/index.js";
 	import * as Dialog from "$lib/components/ui/dialog/index.js";
@@ -45,12 +46,12 @@
 		month: "long",
 		day: "numeric",
 	});
-	let calValue = $state(today(getLocalTimeZone()));
+	let calValue = $state(today(public_cfg.TIMEZONE));
 </script>
 
 <ModeWatcher />
 
-<Sidebar.Provider>
+<Sidebar.Provider style="--sidebar-width: 20rem; --sidebar-width-mobile: 20rem">
 	<Sidebar.Root>
 		<Sidebar.Header class="border-sidebar-border h-16 border-b">
 			<NavUser user={userData} />
@@ -59,13 +60,31 @@
 		<Sidebar.Content>
 			<Sidebar.Group>
 				<Sidebar.GroupContent>
-					<Calendar
-						locale="id-ID"
-						bind:value={calValue}
-						captionLayout="dropdown"
-						type="single"
-						class="w-full rounded-md border [&_table]:w-full [&_td]:w-full [&_th]:w-full"
-					/>
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Tanggal</Card.Title>
+							<Card.Description>Pilih tanggal.</Card.Description>
+							<Card.Action>
+								<Button
+									size="sm"
+									variant="outline"
+									onclick={() =>
+										(calValue = today(public_cfg.TIMEZONE))}
+								>
+									Hari ini
+								</Button>
+							</Card.Action>
+						</Card.Header>
+						<Card.Content>
+							<Calendar
+								locale="id-ID"
+								bind:value={calValue}
+								captionLayout="dropdown"
+								type="single"
+								class="w-full rounded-md [&_table]:w-full [&_td]:w-full [&_th]:w-full"
+							/>
+						</Card.Content>
+					</Card.Root>
 				</Sidebar.GroupContent>
 			</Sidebar.Group>
 
