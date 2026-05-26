@@ -5,9 +5,12 @@
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import * as Drawer from "$lib/components/ui/drawer/index.js";
 	import { Label } from "$lib/components/ui/label/index.js";
+	import * as Dialog from "$lib/components/ui/dialog/index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
 	import Settings from "@lucide/svelte/icons/settings";
+	import Info from "@lucide/svelte/icons/info";
 	import { invalidateAll } from "$app/navigation";
+	import * as Table from "$lib/components/ui/table/index.js";
 	import { Input } from "$lib/components/ui/input/index.js";
 	import { ModeWatcher, toggleMode } from "mode-watcher";
 	import type { PageServerData } from "./$types";
@@ -21,6 +24,7 @@
 	import Editor from "./sidebar/editor.svelte";
 	import { Separator } from "$lib/components/ui/separator";
 	import * as Breadcrumb from "$lib/components/ui/breadcrumb";
+	import { public_cfg } from "$lib/public_cfg";
 
 	let {
 		data,
@@ -35,6 +39,12 @@
 		avatar: logo,
 	};
 
+	const dateFormatter = Intl.DateTimeFormat("id-ID", {
+		weekday: "long",
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	});
 	let calValue = $state(today(getLocalTimeZone()));
 </script>
 
@@ -162,10 +172,54 @@
 			<Breadcrumb.Root>
 				<Breadcrumb.List>
 					<Breadcrumb.Item>
-						<Breadcrumb.Page>October 2024</Breadcrumb.Page>
+						<Breadcrumb.Page
+							>{dateFormatter.format(
+								calValue.toDate(public_cfg.TIMEZONE),
+							)}</Breadcrumb.Page
+						>
 					</Breadcrumb.Item>
 				</Breadcrumb.List>
 			</Breadcrumb.Root>
+			<div class="ms-auto flex items-center gap-2">
+				<Dialog.Root>
+					<Dialog.Trigger class={buttonVariants({ variant: "outline" })}
+						><Info /> Server</Dialog.Trigger
+					>
+					<Dialog.Content class="sm:max-w-md">
+						<Dialog.Header>
+							<Dialog.Title>Informasi Konfigurasi Server</Dialog.Title>
+						</Dialog.Header>
+						<Table.Root>
+							<Table.Caption>
+								Nilai konfigurasi di atas dapat diatur dengan mengedit <i
+									>environment variable</i
+								> pada server.
+							</Table.Caption>
+							<Table.Header>
+								<Table.Row>
+									<Table.Head class="w-[100px]">Konfigurasi</Table.Head
+									>
+									<Table.Head class="text-end">Niai</Table.Head>
+								</Table.Row>
+							</Table.Header>
+							<Table.Body>
+								<Table.Row>
+									<Table.Cell>Zone waktu</Table.Cell>
+									<Table.Cell class="text-end"
+										>{public_cfg.TIMEZONE}</Table.Cell
+									>
+								</Table.Row>
+							</Table.Body>
+						</Table.Root>
+						<Dialog.Footer class="sm:justify-end">
+							<Dialog.Close
+								class={buttonVariants({ variant: "secondary" })}
+								>Tutup</Dialog.Close
+							>
+						</Dialog.Footer>
+					</Dialog.Content>
+				</Dialog.Root>
+			</div>
 		</header>
 		<div class="flex flex-1 flex-col gap-4 p-4">
 			<div class="grid auto-rows-min gap-4 md:grid-cols-5">
