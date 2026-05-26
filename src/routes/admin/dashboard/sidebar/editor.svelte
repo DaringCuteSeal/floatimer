@@ -26,7 +26,11 @@
 					</Card.Description>
 				</Card.Header>
 				<Card.Content>
-					<p>abcdef</p>
+					<p>
+						Waktu:
+						{timer.time_start.getHours()}:{timer.time_start.getMinutes()} -
+						{timer.time_end.getHours()}:{timer.time_end.getMinutes()}
+					</p>
 				</Card.Content>
 				<Card.Footer class="flex-col gap-2">
 					<Button type="submit" class="w-full">Sunting</Button>
