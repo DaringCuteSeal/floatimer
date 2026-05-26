@@ -44,14 +44,13 @@
 		</Sidebar.Header>
 
 		<Sidebar.Content>
-			<Sidebar.Group class="px-0">
+			<Sidebar.Group>
 				<Sidebar.GroupContent>
 					<Calendar
 						locale="id-ID"
 						bind:value={calValue}
 						captionLayout="dropdown"
 						type="single"
-						class="[&_[role=gridcell]_[role=button][data-today]]:bg-sidebar-primary [&_[role=gridcell]_[role=button][data-today]]:text-sidebar-primary-foreground select-none [&_[data-bits-calendar-head-cell]]:w-full [&_[role=gridcell]]:w-full"
 					/>
 				</Sidebar.GroupContent>
 			</Sidebar.Group>
