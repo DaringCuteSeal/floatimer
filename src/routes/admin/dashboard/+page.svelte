@@ -15,7 +15,12 @@
 	import { Input } from "$lib/components/ui/input/index.js";
 	import { ModeWatcher, toggleMode } from "mode-watcher";
 	import type { PageServerData } from "./$types";
-	import { fromDate, toCalendarDate, today } from "@internationalized/date";
+	import {
+		CalendarDate,
+		fromDate,
+		toCalendarDate,
+		today,
+	} from "@internationalized/date";
 	import logo from "$lib/assets/timer.png";
 	import { buttonVariants } from "$lib/components/ui/button";
 
@@ -48,10 +53,12 @@
 		day: "numeric",
 	});
 
-	let calValue = $state(fromDate(data.date, public_cfg.TIMEZONE));
+	let calValue: CalendarDate = $state(
+		toCalendarDate(fromDate(data.date, public_cfg.TIMEZONE)),
+	);
 
 	$effect(() => {
-		goto(`?date=${dateFormatMachine(calValue.toDate())}`, {
+		goto(`?date=${dateFormatMachine(calValue.toDate(public_cfg.TIMEZONE))}`, {
 			replaceState: true,
 			keepFocus: true,
 			noScroll: true,
