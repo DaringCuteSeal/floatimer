@@ -77,7 +77,7 @@
 								<Drawer.Header>
 									<Drawer.Title>Mata Pelajaran</Drawer.Title>
 									<Drawer.Description>
-										Tambah, edit, atau hapus mata pelajaran.
+										Tambah, sunting, atau hapus mata pelajaran.
 									</Drawer.Description>
 								</Drawer.Header>
 
