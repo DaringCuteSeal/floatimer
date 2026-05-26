@@ -199,7 +199,7 @@
 								<Table.Row>
 									<Table.Head class="w-[100px]">Konfigurasi</Table.Head
 									>
-									<Table.Head class="text-end">Niai</Table.Head>
+									<Table.Head class="text-end">Nilai</Table.Head>
 								</Table.Row>
 							</Table.Header>
 							<Table.Body>
