@@ -4,7 +4,7 @@
 	import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import * as Drawer from "$lib/components/ui/drawer/index.js";
-	import * as AlertDialog from "$lib/components/ui/alert-dialog/index.js";
+	import { Label } from "$lib/components/ui/label/index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
 	import Settings from "@lucide/svelte/icons/settings";
 	import { invalidateAll } from "$app/navigation";
@@ -15,9 +15,9 @@
 	import logo from "$lib/assets/timer.png";
 	import { buttonVariants } from "$lib/components/ui/button";
 
-	import SquarePen from "@lucide/svelte/icons/square-pen";
-	import Trash2 from "@lucide/svelte/icons/trash-2";
 	import { enhance } from "$app/forms";
+	import EditDialog from "./sidebar/edit-dialog.svelte";
+	import DeleteDialog from "./sidebar/delete-dialog.svelte";
 
 	let {
 		data,
@@ -35,8 +35,6 @@
 	// tambahin metadata is_editing
 	// hehe as if it does anything when compiled
 	let calValue = $state(today(getLocalTimeZone()));
-	function deleteSubject(id: number) {}
-	function editSubject(id: number) {}
 </script>
 
 <ModeWatcher />
@@ -55,7 +53,7 @@
 						bind:value={calValue}
 						captionLayout="dropdown"
 						type="single"
-						class="[&_[role=gridcell]_[role=button][data-today]]:bg-sidebar-primary [&_[role=gridcell]_[role=button][data-today]]:text-sidebar-primary-foreground select-none [&_[data-bits-calendar-head-cell]]:w-[33px] [&_[role=gridcell]]:w-[33px]"
+						class="[&_[role=gridcell]_[role=button][data-today]]:bg-sidebar-primary [&_[role=gridcell]_[role=button][data-today]]:text-sidebar-primary-foreground select-none [&_[data-bits-calendar-head-cell]]:w-full [&_[role=gridcell]]:w-full"
 					/>
 				</Sidebar.GroupContent>
 			</Sidebar.Group>
@@ -119,52 +117,14 @@
 													>
 
 													<div class="flex gap-2">
-														<Button
-															variant="ghost"
-															onclick={() =>
-																editSubject(subject.id)}
-															><SquarePen />Sunting</Button
-														>
-														<AlertDialog.Root>
-															<AlertDialog.Trigger
-																class={buttonVariants({
-																	variant: "destructive",
-																})}
-															>
-																<Trash2 />Hapus
-															</AlertDialog.Trigger>
-
-															<AlertDialog.Content>
-																<AlertDialog.Header>
-																	<AlertDialog.Title
-																		>Benar-benar Yakin?</AlertDialog.Title
-																	>
-																	<AlertDialog.Description>
-																		Yakin untuk menghapus mata
-																		pelajaran?
-																	</AlertDialog.Description>
-																</AlertDialog.Header>
-																<AlertDialog.Footer>
-																	<AlertDialog.Cancel
-																		>Batal</AlertDialog.Cancel
-																	>
-																	<form
-																		method="post"
-																		action="?/deleteSubject"
-																		use:enhance
-																	>
-																		<input
-																			type="hidden"
-																			name="id"
-																			value={subject.id}
-																		/>
-																		<AlertDialog.Action>
-																			Hapus
-																		</AlertDialog.Action>
-																	</form>
-																</AlertDialog.Footer>
-															</AlertDialog.Content>
-														</AlertDialog.Root>
+														<EditDialog
+															subjectId={subject.id}
+															subjectName={subject.name}
+														/>
+														<DeleteDialog
+															subjectId={subject.id}
+															subjectName={subject.name}
+														/>
 													</div>
 												</div>
 											{/each}

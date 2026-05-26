@@ -6,24 +6,10 @@
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import { useSidebar } from "$lib/components/ui/sidebar/index.js";
-	import { goto, invalidateAll } from "$app/navigation";
 
 	let { user }: { user: { name: string; email: string; avatar: string } } =
 		$props();
 	const sidebar = useSidebar();
-
-	async function user_logout() {
-		console.log("HI");
-		await fetch("/admin/dashboard?/signOut", {
-			method: "POST",
-			headers: {
-				"content-type": "application/x-www-form-urlencoded",
-			},
-			body: "",
-		});
-		await invalidateAll();
-		goto("/admin/login");
-	}
 </script>
 
 <Sidebar.Menu>
