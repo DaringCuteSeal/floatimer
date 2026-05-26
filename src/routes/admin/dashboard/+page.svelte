@@ -153,15 +153,13 @@
 																		action="?/deleteSubject"
 																		use:enhance
 																	>
+																		<input
+																			type="hidden"
+																			name="id"
+																			value={subject.id}
+																		/>
 																		<AlertDialog.Action>
-																			<input
-																				type="hidden"
-																				name="id"
-																				value={subject.id}
-																			/>
-																			<button type="submit"
-																				>Hapus</button
-																			>
+																			Hapus
 																		</AlertDialog.Action>
 																	</form>
 																</AlertDialog.Footer>
