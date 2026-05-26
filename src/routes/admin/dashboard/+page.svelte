@@ -10,12 +10,12 @@
 	import { Button } from "$lib/components/ui/button/index.js";
 	import Settings from "@lucide/svelte/icons/settings";
 	import Info from "@lucide/svelte/icons/info";
-	import { invalidateAll } from "$app/navigation";
+	import { goto, invalidateAll } from "$app/navigation";
 	import * as Table from "$lib/components/ui/table/index.js";
 	import { Input } from "$lib/components/ui/input/index.js";
 	import { ModeWatcher, toggleMode } from "mode-watcher";
 	import type { PageServerData } from "./$types";
-	import { getLocalTimeZone, today } from "@internationalized/date";
+	import { fromDate, toCalendarDate, today } from "@internationalized/date";
 	import logo from "$lib/assets/timer.png";
 	import { buttonVariants } from "$lib/components/ui/button";
 
@@ -26,6 +26,7 @@
 	import { Separator } from "$lib/components/ui/separator";
 	import * as Breadcrumb from "$lib/components/ui/breadcrumb";
 	import { public_cfg } from "$lib/public_cfg";
+	import { dateFormatMachine } from "$lib/utils";
 
 	let {
 		data,
@@ -46,7 +47,16 @@
 		month: "long",
 		day: "numeric",
 	});
-	let calValue = $state(today(public_cfg.TIMEZONE));
+
+	let calValue = $state(fromDate(data.date, public_cfg.TIMEZONE));
+
+	$effect(() => {
+		goto(`?date=${dateFormatMachine(calValue.toDate())}`, {
+			replaceState: true,
+			keepFocus: true,
+			noScroll: true,
+		});
+	});
 </script>
 
 <ModeWatcher />
@@ -82,6 +92,11 @@
 								captionLayout="dropdown"
 								type="single"
 								class="w-full rounded-md [&_table]:w-full [&_td]:w-full [&_th]:w-full"
+								onValueChange={(newDate) => {
+									if (newDate != undefined) {
+										calValue = toCalendarDate(newDate);
+									}
+								}}
 							/>
 						</Card.Content>
 					</Card.Root>

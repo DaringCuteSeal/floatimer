@@ -4,7 +4,10 @@ import type { PageServerLoad } from './$types';
 import { auth } from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import { subjects } from '$lib/server/db/subjects.schema';
-import { eq, type InferSelectModel } from 'drizzle-orm';
+import { eq, gte, lt, type InferSelectModel } from 'drizzle-orm';
+import { timers } from '$lib/server/db/timers.schema';
+import { CalendarDate, parseDate, today } from "@internationalized/date";
+import { public_cfg } from '$lib/public_cfg';
 
 export const actions: Actions = {
 	signOut: async (event) => {
@@ -70,11 +73,45 @@ export const load: PageServerLoad = async (event) => {
 		return redirect(302, '/admin/login');
 	}
 
-	let subjectsData: Array<InferSelectModel<typeof subjects>>;
+	// get the target date by the url parameter, or set to today (based on the set time zone) as a fallback
+	let targetDate: CalendarDate;
+	let urlDate = event.url.searchParams.get("date");
+
+	if (urlDate == null) {
+		targetDate = today(public_cfg.TIMEZONE);
+	} else {
+		try {
+			targetDate = parseDate(urlDate);
+		} catch {
+			targetDate = today(public_cfg.TIMEZONE);
+		}
+	}
+
+	let startDate = targetDate.toDate(public_cfg.TIMEZONE);
+	let endDate = targetDate.toDate(public_cfg.TIMEZONE);
+	endDate.setDate(startDate.getDate() + 1);
+
+	let timersData: Array<InferSelectModel<typeof timers>>;
+
 	try {
-		subjectsData = await db.query.subjects.findMany({ orderBy: (subjects, { asc, desc }) => [desc(subjects.id), desc(subjects.name)], });
+		timersData = await db.query.timers.findMany({
+			where: (timers, { and, gte, lt }) => and(
+				gte(timers.time_start, startDate),
+				lt(timers.time_end, endDate)
+			)
+		})
+	} catch (err) {
+		return error(500, "Gagal mendapatkan daftar timer!");
+	}
+
+	let subjectsData: Array<InferSelectModel<typeof subjects>>;
+
+	try {
+		subjectsData = await db.query.subjects.findMany({ orderBy: (subjects, { desc }) => [desc(subjects.id), desc(subjects.name)], });
 	} catch (err) {
 		return error(500, "Gagal mendapatkan daftar mata pelajaran!");
 	}
-	return { user: event.locals.user, subjects: subjectsData };
+
+
+	return { user: event.locals.user, subjects: subjectsData, timers: timersData, date: targetDate.toDate(public_cfg.TIMEZONE) };
 };
