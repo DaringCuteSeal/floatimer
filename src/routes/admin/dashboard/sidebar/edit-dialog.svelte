@@ -58,7 +58,7 @@
 						variant: "outline",
 					})}
 				>
-					Cancel
+					Batal
 				</Dialog.Close>
 				<input type="hidden" name="id" value={subjectId} />
 				<Button type="submit">Simpan Perubahan</Button>

@@ -18,6 +18,9 @@
 	import { enhance } from "$app/forms";
 	import EditDialog from "./sidebar/edit-dialog.svelte";
 	import DeleteDialog from "./sidebar/delete-dialog.svelte";
+	import Editor from "./sidebar/editor.svelte";
+	import { Separator } from "$lib/components/ui/separator";
+	import * as Breadcrumb from "$lib/components/ui/breadcrumb";
 
 	let {
 		data,
@@ -51,6 +54,7 @@
 						bind:value={calValue}
 						captionLayout="dropdown"
 						type="single"
+						class="w-full rounded-md border [&_table]:w-full [&_td]:w-full [&_th]:w-full"
 					/>
 				</Sidebar.GroupContent>
 			</Sidebar.Group>
@@ -145,9 +149,30 @@
 
 		<Sidebar.Rail />
 	</Sidebar.Root>
+
 	<Sidebar.Inset>
-		<header class="flex h-12 items-center justify-between px-4">
-			<Sidebar.Trigger />
+		<header
+			class="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4"
+		>
+			<Sidebar.Trigger class="-ms-1" />
+			<Separator
+				orientation="vertical"
+				class="me-2 data-[orientation=vertical]:h-4"
+			/>
+			<Breadcrumb.Root>
+				<Breadcrumb.List>
+					<Breadcrumb.Item>
+						<Breadcrumb.Page>October 2024</Breadcrumb.Page>
+					</Breadcrumb.Item>
+				</Breadcrumb.List>
+			</Breadcrumb.Root>
 		</header>
+		<div class="flex flex-1 flex-col gap-4 p-4">
+			<div class="grid auto-rows-min gap-4 md:grid-cols-5">
+				{#each Array.from({ length: 20 }) as _, index (index)}
+					<div class="bg-muted/50 aspect-square rounded-xl"></div>
+				{/each}
+			</div>
+		</div>
 	</Sidebar.Inset>
 </Sidebar.Provider>
