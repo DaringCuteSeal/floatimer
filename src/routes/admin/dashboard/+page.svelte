@@ -204,7 +204,7 @@
 							</Table.Header>
 							<Table.Body>
 								<Table.Row>
-									<Table.Cell>Zone waktu</Table.Cell>
+									<Table.Cell>Zona waktu</Table.Cell>
 									<Table.Cell class="text-end"
 										>{public_cfg.TIMEZONE}</Table.Cell
 									>
