@@ -3,6 +3,7 @@
 	import NavUser from "./sidebar/nav-user.svelte";
 	import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+	import * as InputGroup from "$lib/components/ui/input-group/index.js";
 	import * as Card from "$lib/components/ui/card/index.js";
 	import * as Drawer from "$lib/components/ui/drawer/index.js";
 	import { Label } from "$lib/components/ui/label/index.js";
@@ -13,6 +14,7 @@
 	import SunIcon from "@lucide/svelte/icons/sun";
 	import MoonIcon from "@lucide/svelte/icons/moon";
 	import CircleSmall from "@lucide/svelte/icons/circle-small";
+	import Plus from "@lucide/svelte/icons/plus";
 	import Info from "@lucide/svelte/icons/info";
 	import { goto, invalidateAll } from "$app/navigation";
 	import * as Table from "$lib/components/ui/table/index.js";
@@ -157,13 +159,16 @@
 								</Drawer.Header>
 
 								<div class="p-4 flex flex-row gap-3">
-									<Input
-										bind:value={subjectFilterValue}
-										name="filter"
-										placeholder="Cari..."
-										required
-									/>
-									<Search />
+									<InputGroup.Root>
+										<InputGroup.Input
+											bind:value={subjectFilterValue}
+											name="filter"
+											placeholder="Cari..."
+										/>
+										<InputGroup.Addon>
+											<Search />
+										</InputGroup.Addon>
+									</InputGroup.Root>
 								</div>
 
 								<div class="p-4 space-y-2">
@@ -179,7 +184,7 @@
 												placeholder="Nama mata pelajaran baru..."
 												required
 											/>
-											<Button type="submit">Tambah</Button>
+											<Button type="submit"><Plus />Tambah</Button>
 										</form>
 									</div>
 								</div>
