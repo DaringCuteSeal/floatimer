@@ -1,5 +1,6 @@
 import { betterAuth } from 'better-auth/minimal';
 import { i18n } from "@better-auth/i18n";
+import { sentinel } from '@better-auth/infra';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 import { env } from '$env/dynamic/private';
@@ -28,6 +29,28 @@ export const auth = betterAuth({
 					INVALID_EMAIL: "Email tidak valid"
 				}
 			},
+		}),
+		sentinel({
+			apiKey: process.env.BETTER_AUTH_SECRET,
+			security: {
+				credentialStuffing: {
+					enabled: true,
+					thresholds: {
+						challenge: 3,
+						block: 5
+					},
+					windowSeconds: 3600,
+					cooldownSeconds: 900
+				},
+				impossibleTravel: {
+					enabled: true,
+					maxSpeedKmh: 1000,
+					action: "challenge"
+				},
+				botBlocking: true,
+				suspiciousIpBlocking: true,
+				challengeDifficulty: 20
+			}
 		}),
 		sveltekitCookies(getRequestEvent) // make sure this is the last plugin in the array
 	]
