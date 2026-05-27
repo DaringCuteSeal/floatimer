@@ -46,18 +46,15 @@
 				</Card.Header>
 				<Card.Content>
 					<p>
-						<b>
-							Waktu:
-							{String(timer.time_start.getHours()).padStart(
-								2,
-								"0",
-							)}:{String(timer.time_start.getMinutes()).padStart(2, "0")}
-							-
-							{String(timer.time_end.getHours()).padStart(
-								2,
-								"0",
-							)}:{String(timer.time_end.getMinutes()).padStart(2, "0")}
-						</b>
+						Waktu:
+						{String(timer.time_start.getHours()).padStart(
+							2,
+							"0",
+						)}:{String(timer.time_start.getMinutes()).padStart(2, "0")}
+						-
+						{String(timer.time_end.getHours()).padStart(2, "0")}:{String(
+							timer.time_end.getMinutes(),
+						).padStart(2, "0")}
 					</p>
 				</Card.Content>
 				<Card.Footer class="flex-col gap-2">

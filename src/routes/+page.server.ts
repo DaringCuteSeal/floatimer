@@ -27,7 +27,7 @@ export const load: PageServerLoad = async (event) => {
 	let endDate = targetDate.toDate(public_cfg.TIMEZONE);
 	endDate.setDate(startDate.getDate() + 1);
 
-	let timersData: Array<InferSelectModel<typeof timers>>;
+	let timersData;
 
 	try {
 		timersData = await db.query.timers.findMany({

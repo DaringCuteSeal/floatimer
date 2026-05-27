@@ -4,6 +4,7 @@
 	import SunIcon from "@lucide/svelte/icons/sun";
 	import MoonIcon from "@lucide/svelte/icons/moon";
 	import ChevronDown from "@lucide/svelte/icons/chevron-down";
+	import CalendarIcon from "@lucide/svelte/icons/calendar";
 	import * as Card from "$lib/components/ui/card";
 	import * as Popover from "$lib/components/ui/popover";
 	import { Calendar } from "$lib/components/ui/calendar";
@@ -18,8 +19,9 @@
 	import type { PageServerData } from "./$types";
 	import { public_cfg } from "$lib/public_cfg";
 	import CalendarDay from "$lib/components/ui/calendar/calendar-day.svelte";
-	import { dateValueFormatMachine } from "$lib/utils";
+	import { dateFormatMachine, dateValueFormatMachine } from "$lib/utils";
 	import Label from "$lib/components/ui/label/label.svelte";
+	import { goto } from "$app/navigation";
 
 	let {
 		data,
@@ -35,6 +37,14 @@
 	let calendarOpen = $state(false);
 
 	const thisDay = toCalendarDate(fromDate(data.thisDay, public_cfg.TIMEZONE));
+
+	$effect(() => {
+		goto(`?date=${dateFormatMachine(calValue.toDate(public_cfg.TIMEZONE))}`, {
+			replaceState: true,
+			keepFocus: true,
+			noScroll: true,
+		});
+	});
 </script>
 
 <ModeWatcher />
@@ -54,16 +64,16 @@
 </Button>
 
 <div class="flex flex-col m-5 gap-5">
-	<div class="flex flex-row gap-5 justify-center">
-		<Label for="date" class="px-1">Tanggal</Label>
+	<div class="flex justify-center items-center">
 		<Popover.Root bind:open={calendarOpen}>
 			<Popover.Trigger id="date">
 				{#snippet child({ props })}
 					<Button
 						{...props}
 						variant="outline"
-						class="w-48 justify-between font-normal"
+						class="w-40 justify-between font-normal"
 					>
+						<CalendarIcon />
 						{calValue
 							? calValue.toDate(public_cfg.TIMEZONE).toLocaleDateString()
 							: "Select date"}
@@ -120,12 +130,44 @@
 			</Popover.Content>
 		</Popover.Root>
 	</div>
-	<Card.Root class="max-w-full w-full">
-		<Card.Header>
-			<Card.Title>Daftar Ujian</Card.Title>
-			<Card.Description
-				>Pilih kartu untuk lanjut ke tampilan timer.</Card.Description
-			>
-		</Card.Header>
-	</Card.Root>
+	{#if data.timers.length > 0}
+		<div
+			class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 overflow-x-auto items-start"
+		>
+			{#each data.timers as timer (timer.id)}
+				<Card.Root>
+					<Card.Header>
+						<Card.Title>
+							{#if timer.name == ""}
+								<i>Timer Tanpa Nama</i>
+							{:else}
+								{timer.name}
+							{/if}
+						</Card.Title>
+						<Card.Description>
+							{timer.subject?.name}
+						</Card.Description>
+					</Card.Header>
+					<Card.Content>
+						<p>
+							Waktu:
+							{String(timer.time_start.getHours()).padStart(
+								2,
+								"0",
+							)}:{String(timer.time_start.getMinutes()).padStart(2, "0")}
+							-
+							{String(timer.time_end.getHours()).padStart(
+								2,
+								"0",
+							)}:{String(timer.time_end.getMinutes()).padStart(2, "0")}
+						</p>
+					</Card.Content>
+				</Card.Root>
+			{/each}
+		</div>
+	{:else}
+		<p class="justify-center text-center">
+			Tidak ada timer ujian untuk hari ini. Yay!
+		</p>
+	{/if}
 </div>
