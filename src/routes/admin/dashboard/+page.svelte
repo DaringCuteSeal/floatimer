@@ -65,6 +65,14 @@
 	);
 
 	let subjectFilterValue = $state("");
+
+	$effect(() => {
+		goto(`?date=${dateFormatMachine(calValue.toDate(public_cfg.TIMEZONE))}`, {
+			replaceState: true,
+			keepFocus: true,
+			noScroll: true,
+		});
+	});
 </script>
 
 <ModeWatcher />
@@ -104,16 +112,7 @@
 									if (!newDate) {
 										return;
 									}
-
 									calValue = toCalendarDate(newDate);
-									goto(
-										`?date=${dateFormatMachine(calValue.toDate(public_cfg.TIMEZONE))}`,
-										{
-											replaceState: true,
-											keepFocus: true,
-											noScroll: true,
-										},
-									);
 								}}
 							>
 								{#snippet day({ day })}
