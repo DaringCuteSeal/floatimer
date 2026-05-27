@@ -23,7 +23,6 @@
 	import { dateFormatMachine, dateValueFormatMachine } from "$lib/utils";
 	import Label from "$lib/components/ui/label/label.svelte";
 	import { goto } from "$app/navigation";
-	import { PUBLIC_TITLE } from "$env/static/public";
 
 	let {
 		data,
@@ -66,7 +65,7 @@
 </Button>
 
 <div class="min-h-screen flex flex-col p-4 bg">
-	<h1 class="text-2xl font-bold text-center">{PUBLIC_TITLE}</h1>
+	<h1 class="text-2xl font-bold text-center">{public_cfg.TITLE}</h1>
 	<div class="flex flex-col m-5 gap-5 flex-1">
 		<div class="flex justify-center items-center">
 			<Popover.Root bind:open={calendarOpen}>
