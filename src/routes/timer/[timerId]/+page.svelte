@@ -73,7 +73,7 @@
 		// refresh the page data every minute
 		const interval = setInterval(() => {
 			invalidateAll();
-		}, 60_000);
+		}, 10000);
 
 		return () => clearInterval(interval);
 	});
