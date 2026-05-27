@@ -6,9 +6,28 @@ import { db } from '$lib/server/db';
 import { subjects } from '$lib/server/db/subjects.schema';
 import { eq, gte, lt, type InferSelectModel } from 'drizzle-orm';
 import { timers } from '$lib/server/db/timers.schema';
-import { CalendarDate, parseDate, today } from "@internationalized/date";
+import { CalendarDate, parseAbsolute, parseDate, today, ZonedDateTime, type DateValue } from "@internationalized/date";
 import { public_cfg } from '$lib/public_cfg';
 import { dateFormatMachine } from '$lib/utils';
+
+function combineDateAndTime(
+	inputDate: ZonedDateTime,
+	time: string,
+): Date {
+	const [hour, minute] = time.split(":").map(Number);
+	if (isNaN(hour) || isNaN(minute)) {
+		throw Error("time format not correct");
+	}
+
+	const updated = inputDate.set({
+		hour,
+		minute,
+		second: 0,
+		millisecond: 0
+	});
+
+	return updated.toDate();
+}
 
 export const actions: Actions = {
 	signOut: async (event) => {
@@ -65,6 +84,47 @@ export const actions: Actions = {
 			});
 		} catch (err) {
 			return error(500, "Gagal menghapus mata pelajaran!");
+		}
+	},
+	addTimer: async ({ request }) => {
+		const formData = await request.formData();
+		const name = formData.get('name')?.toString() ?? '';
+		const date = formData.get('date')?.toString() ?? '';
+		const startTime = formData.get('time_start')?.toString() ?? '';
+		const endTime = formData.get('time_end')?.toString() ?? '';
+		const subjectId = formData.get('subject_id')?.toString() ?? NaN;
+		const subjectIdNum = Number(subjectId)
+		if (isNaN(subjectIdNum)) {
+			return error(400, "ID mata pelajaran tidak ditemukan dalam database!")
+		}
+
+		let startDate: DateValue;
+		let endDate: DateValue;
+		try {
+			startDate = parseAbsolute(date, public_cfg.TIMEZONE);
+			endDate = startDate;
+		} catch {
+			return error(400, "Tanggal tidak valid!")
+		}
+
+		let startDateTime;
+		let endDateTime;
+		try {
+			startDateTime = combineDateAndTime(startDate, startTime);
+			endDateTime = combineDateAndTime(endDate, endTime);
+		} catch {
+			return error(400, "Format waktu tidak valid!")
+		}
+
+		try {
+			await db.insert(timers).values({
+				name,
+				subject: subjectIdNum,
+				time_start: startDateTime,
+				time_end: endDateTime
+			})
+		} catch (err) {
+			return error(500, "Gagal menambahkan timer!");
 		}
 	},
 };

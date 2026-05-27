@@ -314,6 +314,7 @@
 			</div>
 		</header>
 		<div class="flex flex-1 flex-col gap-4 p-4">
+			<!-- beware: date is set to data.date. this works because when the date is updated, the data is updated too. in case this behavior change, this might break. i'm just doing it this way so i don't need to convert calValue to a native Date object.  -->
 			<Editor
 				timersData={data.timers}
 				subjectsData={data.subjects}

@@ -3,6 +3,15 @@
 	import { Button } from "$lib/components/ui/button/index.js";
 	import ArrowUpRightIcon from "@lucide/svelte/icons/arrow-up-right";
 	import Timer from "@lucide/svelte/icons/timer";
+	import AddTimerDialog from "./add-timer-dialog.svelte";
+	import type { InferSelectModel } from "drizzle-orm";
+	import type { subjects } from "$lib/server/db/subjects.schema";
+
+	let {
+		subjectsData,
+		date,
+	}: { subjectsData: Array<InferSelectModel<typeof subjects>>; date: Date } =
+		$props();
 </script>
 
 <Empty.Root>
@@ -17,7 +26,7 @@
 	</Empty.Header>
 	<Empty.Content>
 		<div class="flex gap-2">
-			<Button>Buat Timer</Button>
+			<AddTimerDialog btnLabel="Buat Timer" {subjectsData} {date} />
 		</div>
 	</Empty.Content>
 	<Button variant="link" class="text-muted-foreground" size="sm">

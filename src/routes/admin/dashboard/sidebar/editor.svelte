@@ -9,8 +9,17 @@
 	import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
 	import * as Card from "$lib/components/ui/card/index.js";
 	import type { DB } from "better-auth/adapters/drizzle";
+	import type { subjects } from "$lib/server/db/subjects.schema";
 
-	let { timersData } = $props();
+	let {
+		subjectsData,
+		timersData,
+		date,
+	}: {
+		subjectsData: Array<InferSelectModel<typeof subjects>>;
+		timersData: any;
+		date: Date;
+	} = $props();
 </script>
 
 {#if timersData.length > 0}
@@ -27,9 +36,12 @@
 				</Card.Header>
 				<Card.Content>
 					<p>
-						Waktu:
-						{timer.time_start.getHours()}:{timer.time_start.getMinutes()} -
-						{timer.time_end.getHours()}:{timer.time_end.getMinutes()}
+						<b>
+							Waktu:
+							{timer.time_start.getHours()}:{timer.time_start.getMinutes()}
+							-
+							{timer.time_end.getHours()}:{timer.time_end.getMinutes()}
+						</b>
 					</p>
 				</Card.Content>
 				<Card.Footer class="flex-col gap-2">
@@ -40,5 +52,5 @@
 		{/each}
 	</div>
 {:else}
-	<Empty />
+	<Empty {subjectsData} {date} />
 {/if}
