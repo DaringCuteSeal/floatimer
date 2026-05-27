@@ -66,6 +66,14 @@ export const actions: Actions = {
 		} catch (err) {
 			return error(500, "Gagal menghapus mata pelajaran!");
 		}
+	},
+	editTimer: async ({ request }) => {
+		const formData = await request.formData();
+		const id = formData.get('id')?.toString() ?? '';
+		const idNum = Number(id);
+		if (isNan(idNum)) {
+			return error(400, "ID timer tidak ditemukan dalam database!");
+		}
 	}
 };
 

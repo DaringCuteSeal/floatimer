@@ -157,13 +157,13 @@
 								</Drawer.Header>
 
 								<div class="p-4 flex flex-row gap-3">
-									<Search />
 									<Input
 										bind:value={subjectFilterValue}
 										name="filter"
-										placeholder="Cari.."
+										placeholder="Cari..."
 										required
 									/>
+									<Search />
 								</div>
 
 								<div class="p-4 space-y-2">
