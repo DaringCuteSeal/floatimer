@@ -3,7 +3,7 @@
 	import { Button } from "$lib/components/ui/button/index.js";
 	import ArrowUpRightIcon from "@lucide/svelte/icons/arrow-up-right";
 	import Timer from "@lucide/svelte/icons/timer";
-	import AddTimerDialog from "./add-timer-dialog.svelte";
+	import AddTimerCard from "./add-timer-card.svelte";
 	import type { InferSelectModel } from "drizzle-orm";
 	import type { subjects } from "$lib/server/db/subjects.schema";
 
@@ -25,7 +25,7 @@
 		</Empty.Description>
 	</Empty.Header>
 	<Empty.Content>
-		<AddTimerDialog {subjectsData} {date} class="w-full" />
+		<AddTimerCard {subjectsData} {date} class="w-full" />
 	</Empty.Content>
 	<Button variant="link" class="text-muted-foreground" size="sm">
 		<a href="#/">

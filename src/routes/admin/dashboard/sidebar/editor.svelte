@@ -10,7 +10,7 @@
 	import * as Card from "$lib/components/ui/card/index.js";
 	import type { DB } from "better-auth/adapters/drizzle";
 	import type { subjects } from "$lib/server/db/subjects.schema";
-	import AddTimerDialog from "./add-timer-dialog.svelte";
+	import AddTimerCard from "./add-timer-card.svelte";
 
 	let {
 		subjectsData,
@@ -63,7 +63,7 @@
 				</Card.Footer>
 			</Card.Root>
 		{/each}
-		<AddTimerDialog {subjectsData} {date} />
+		<AddTimerCard {subjectsData} {date} />
 	</div>
 {:else}
 	<Empty {subjectsData} {date} />
