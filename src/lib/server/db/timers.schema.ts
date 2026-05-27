@@ -4,10 +4,10 @@ import { relations } from "drizzle-orm";
 
 export const timers = pgTable('timers', {
 	id: serial('id').primaryKey().unique(),
-	subject: serial('subject').references(() => subjects.id),
-	name: varchar('name', { length: 100 }),
-	time_start: timestamp("time_start", { precision: 6, withTimezone: true }),
-	time_end: timestamp("time_end", { precision: 6, withTimezone: true }),
+	subject: serial('subject').notNull().references(() => subjects.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+	name: varchar('name', { length: 100 }).notNull(),
+	time_start: timestamp("time_start", { precision: 6, withTimezone: true }).notNull(),
+	time_end: timestamp("time_end", { precision: 6, withTimezone: true }).notNull(),
 });
 
 export const timersRelations = relations(timers, ({ one }) => ({

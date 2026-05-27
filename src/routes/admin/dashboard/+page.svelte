@@ -9,6 +9,7 @@
 	import * as Dialog from "$lib/components/ui/dialog/index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
 	import Settings from "@lucide/svelte/icons/settings";
+	import CircleSmall from "@lucide/svelte/icons/circle-small";
 	import Info from "@lucide/svelte/icons/info";
 	import { goto, invalidateAll } from "$app/navigation";
 	import * as Table from "$lib/components/ui/table/index.js";
@@ -31,7 +32,8 @@
 	import { Separator } from "$lib/components/ui/separator";
 	import * as Breadcrumb from "$lib/components/ui/breadcrumb";
 	import { public_cfg } from "$lib/public_cfg";
-	import { dateFormatMachine } from "$lib/utils";
+	import { dateFormatMachine, dateValueFormatMachine } from "$lib/utils";
+	import CalendarDay from "$lib/components/ui/calendar/calendar-day.svelte";
 
 	let {
 		data,
@@ -100,11 +102,27 @@
 								type="single"
 								class="w-full rounded-md [&_table]:w-full [&_td]:w-full [&_th]:w-full"
 								onValueChange={(newDate) => {
+									// by default, the calendar will set to null if user clicks the active date again.
+									// this prevents it. the ui will still update tho :\
 									if (newDate != undefined) {
 										calValue = toCalendarDate(newDate);
 									}
 								}}
-							/>
+							>
+								{#snippet day({ day })}
+									{@const existsDate = data.dateWithTimers.has(
+										dateValueFormatMachine(day),
+									)}
+									<CalendarDay class="flex flex-col items-center">
+										{day.day}
+										{#if existsDate}
+											<span>
+												<CircleSmall fill="white" size={10} />
+											</span>
+										{/if}
+									</CalendarDay>
+								{/snippet}
+							</Calendar>
 						</Card.Content>
 					</Card.Root>
 				</Sidebar.GroupContent>

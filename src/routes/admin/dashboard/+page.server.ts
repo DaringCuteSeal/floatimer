@@ -8,6 +8,7 @@ import { eq, gte, lt, type InferSelectModel } from 'drizzle-orm';
 import { timers } from '$lib/server/db/timers.schema';
 import { CalendarDate, parseDate, today } from "@internationalized/date";
 import { public_cfg } from '$lib/public_cfg';
+import { dateFormatMachine } from '$lib/utils';
 
 export const actions: Actions = {
 	signOut: async (event) => {
@@ -117,6 +118,27 @@ export const load: PageServerLoad = async (event) => {
 		return error(500, "Gagal mendapatkan daftar mata pelajaran!");
 	}
 
+	// TODO: double query lol
+	// at first i thought that loading all timers would not be optimal but then
+	// i realize i also need to display which dates have timers
+	// so i just slapped this API which hopefully should be lightweight enough
+	let timerDates;
 
-	return { user: event.locals.user, subjects: subjectsData, timers: timersData, date: targetDate.toDate(public_cfg.TIMEZONE) };
+	try {
+		timerDates = await db.query.timers.findMany({
+			columns: {
+				time_start: true
+			}
+		});
+	} catch (err) {
+		return error(500, "Gagal mendapatkan daftar timer!");
+	}
+
+	let timerCountsData = new Set<string>;
+	for (const t of timerDates) {
+		timerCountsData.add(dateFormatMachine(t.time_start));
+
+	}
+
+	return { user: event.locals.user, subjects: subjectsData, timers: timersData, date: targetDate.toDate(public_cfg.TIMEZONE), dateWithTimers: timerCountsData };
 };
