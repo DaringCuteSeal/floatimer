@@ -139,7 +139,7 @@
 		</div>
 		{#if data.timers.length > 0}
 			<div
-				class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 overflow-x-auto items-start"
+				class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 overflow-x-auto items-start"
 			>
 				{#each data.timers as timer (timer.id)}
 					<Card.Root class="w-full">
