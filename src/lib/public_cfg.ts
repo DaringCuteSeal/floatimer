@@ -1,7 +1,6 @@
-import { PUBLIC_FLOATIMER_TIMEZONE } from "$env/static/public";
-import { PUBLIC_TITLE } from "$env/static/public";
+import { env } from "$env/dynamic/public";
 
-if (!PUBLIC_FLOATIMER_TIMEZONE || typeof PUBLIC_FLOATIMER_TIMEZONE != "string") {
+if (!env.PUBLIC_FLOATIMER_TIMEZONE || typeof env.PUBLIC_FLOATIMER_TIMEZONE != "string") {
 	throw new Error("Missing FLOATIMER_TIMEZONE");
 }
 
@@ -11,6 +10,6 @@ export type PublicConfig = {
 }
 
 export const public_cfg: PublicConfig = {
-	TIMEZONE: PUBLIC_FLOATIMER_TIMEZONE,
-	TITLE: !PUBLIC_TITLE ? "Floatimer" : PUBLIC_TITLE
+	TIMEZONE: env.PUBLIC_FLOATIMER_TIMEZONE,
+	TITLE: !env.PUBLIC_TITLE ? "Floatimer" : env.PUBLIC_TITLE
 };
