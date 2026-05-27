@@ -65,14 +65,6 @@
 	);
 
 	let subjectFilterValue = $state("");
-
-	$effect(() => {
-		goto(`?date=${dateFormatMachine(calValue.toDate(public_cfg.TIMEZONE))}`, {
-			replaceState: true,
-			keepFocus: true,
-			noScroll: true,
-		});
-	});
 </script>
 
 <ModeWatcher />
@@ -113,6 +105,14 @@
 									// this prevents it. the ui will still update tho :\
 									if (newDate != undefined) {
 										calValue = toCalendarDate(newDate);
+										goto(
+											`?date=${dateFormatMachine(calValue.toDate(public_cfg.TIMEZONE))}`,
+											{
+												replaceState: true,
+												keepFocus: true,
+												noScroll: true,
+											},
+										);
 									}
 								}}
 							>
@@ -315,7 +315,11 @@
 			</div>
 		</header>
 		<div class="flex flex-1 flex-col gap-4 p-4">
-			<Editor timersData={data.timers} />
+			<Editor
+				timersData={data.timers}
+				subjectsData={data.subjects}
+				date={data.date}
+			/>
 		</div>
 	</Sidebar.Inset>
 </Sidebar.Provider>
