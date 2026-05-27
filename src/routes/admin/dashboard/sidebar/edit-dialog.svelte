@@ -46,7 +46,7 @@
 					<Input
 						id="new-name"
 						name="new_name"
-						defaultValue={subjectName}
+						value={subjectName}
 						required
 					/>
 				</div>
