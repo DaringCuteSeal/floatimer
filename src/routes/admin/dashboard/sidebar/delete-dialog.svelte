@@ -20,7 +20,8 @@
 		<AlertDialog.Header>
 			<AlertDialog.Title>Benar-benar Yakin?</AlertDialog.Title>
 			<AlertDialog.Description>
-			Yakin untuk menghapus mata pelajaran "{subjectName}"?
+				Yakin untuk menghapus mata pelajaran "{subjectName}"? <br /> Aksi
+				ini akan turut menghapus semua timer dengan mata pelajaran {subjectName}.
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
