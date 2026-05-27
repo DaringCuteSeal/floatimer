@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
 	import LogOutIcon from "@lucide/svelte/icons/log-out";
+	import House from "@lucide/svelte/icons/house";
 
 	import * as Avatar from "$lib/components/ui/avatar/index.js";
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
@@ -54,6 +55,9 @@
 						</div>
 					</div>
 				</DropdownMenu.Label>
+				<a href="/">
+					<DropdownMenu.Item><House />Kunjungi Beranda</DropdownMenu.Item>
+				</a>
 				<form method="post" action="/admin/dashboard?/signOut">
 					<DropdownMenu.Item>
 						<button type="submit" class="w-full flex items-center gap-2">
