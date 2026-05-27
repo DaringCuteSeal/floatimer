@@ -27,7 +27,7 @@ Kami menggunakan website [time.is](https://time.is/) sebagai timer ujian, tetapi
 
 ## Instalasi & Panduan Penggunaan
 
-## Deploy
+### Deploy
 Sesuaikan dengan adaptermu: [svelte.dev/docs/kit/adapters](https://svelte.dev/docs/kit/adapters).
 
 ### Membuat Akun
