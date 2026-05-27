@@ -25,9 +25,7 @@
 		</Empty.Description>
 	</Empty.Header>
 	<Empty.Content>
-		<div class="flex gap-2">
-			<AddTimerDialog btnLabel="Buat Timer" {subjectsData} {date} />
-		</div>
+		<AddTimerDialog {subjectsData} {date} class="w-full" />
 	</Empty.Content>
 	<Button variant="link" class="text-muted-foreground" size="sm">
 		<a href="#/">

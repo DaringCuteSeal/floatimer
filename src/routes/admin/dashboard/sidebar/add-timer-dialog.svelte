@@ -4,7 +4,7 @@
 	import * as Dialog from "$lib/components/ui/dialog/index.js";
 	import { Input } from "$lib/components/ui/input";
 	import Label from "$lib/components/ui/label/label.svelte";
-	import Plus from "@lucide/svelte/icons/plus";
+	import Clock from "@lucide/svelte/icons/clock";
 	import ArrowRight from "@lucide/svelte/icons/arrow-right";
 	import type { InferSelectModel } from "drizzle-orm";
 
@@ -13,16 +13,18 @@
 	import * as Drawer from "$lib/components/ui/drawer/index.js";
 	import * as Card from "$lib/components/ui/card/index.js";
 	import * as Popover from "$lib/components/ui/popover/index.js";
+	import * as InputGroup from "$lib/components/ui/input-group/index.js";
 	import { onMount } from "svelte";
 	import type { subjects } from "$lib/server/db/subjects.schema";
 
 	let {
 		subjectsData,
 		date,
+		class: ClassName,
 	}: {
-		btnLabel: string;
 		subjectsData: Array<InferSelectModel<typeof subjects>>;
 		date: Date;
+		class?: string;
 	} = $props();
 
 	let subjectSelectionOpen = $state(false);
@@ -60,7 +62,7 @@
 	});
 </script>
 
-<Card.Root>
+<Card.Root class={ClassName}>
 	<form
 		method="post"
 		action="?/addTimer"
@@ -92,12 +94,17 @@
 					<div class="flex flex-row gap-3 items-center">
 						<div class="w-full flex-col gap-2 flex">
 							<Label for="time-start">Waktu Mulai</Label>
-							<Input
-								id="time-start"
-								type="time"
-								name="time_start"
-								required
-							/>
+							<InputGroup.Root>
+								<InputGroup.Input
+									id="time-start"
+									type="time"
+									name="time_start"
+									required
+								/>
+								<InputGroup.Addon>
+									<Clock />
+								</InputGroup.Addon>
+							</InputGroup.Root>
 						</div>
 
 						<div class="h-max">
@@ -106,12 +113,17 @@
 
 						<div class="w-full flex-col gap-2 flex">
 							<Label for="time-end">Waktu Selesai</Label>
-							<Input
-								id="time-end"
-								type="time"
-								name="time_end"
-								required
-							/>
+							<InputGroup.Root>
+								<InputGroup.Input
+									id="time-end"
+									type="time"
+									name="time_end"
+									required
+								/>
+								<InputGroup.Addon>
+									<Clock />
+								</InputGroup.Addon>
+							</InputGroup.Root>
 						</div>
 					</div>
 
