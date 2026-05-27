@@ -19,9 +19,8 @@ export const load: PageServerLoad = async (event) => {
 	// idk if it's supposed to throw an error but uh sure
 	try {
 		timerItem = await db.query.timers.findFirst({
-			where: (timers, { eq }) => {
-				eq(timers.id, timerIdNum)
-			}
+			where: (timers, { eq }) => eq(timers.id, timerIdNum)
+
 		})
 	} catch {
 		return error(500, "Gagal untuk mendapatkan informasi timer");
@@ -33,7 +32,7 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	// also send server time
-	const now = new Date();
+	const now = new Date().getTime();
 
 	return { timerInfo: timerItem, time: now }
 

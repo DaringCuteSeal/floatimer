@@ -25,4 +25,5 @@
 <div class="text-xl flex flex-col items-center h-full justify-center h-screen">
 	<h1>Ups!</h1>
 	<p>Terjadi kesalahan: {page.error?.message}</p>
+	<a class="underline" href="/">Kembali ke beranda</a>
 </div>

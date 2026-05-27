@@ -3,12 +3,14 @@
 	import { Button } from "$lib/components/ui/button";
 	import SunIcon from "@lucide/svelte/icons/sun";
 	import MoonIcon from "@lucide/svelte/icons/moon";
+	import House from "@lucide/svelte/icons/house";
 	import waves from "$lib/assets/waves.webm";
 	import Timer from "@lucide/svelte/icons/timer";
 	import * as Card from "$lib/components/ui/card/";
 	import { public_cfg } from "$lib/public_cfg";
 	import { ModeWatcher, toggleMode } from "mode-watcher";
 	import { onMount } from "svelte";
+	import Watermark from "$lib/components/ui/watermark/watermark.svelte";
 
 	const { data } = $props();
 
@@ -105,8 +107,14 @@
 	<span class="sr-only">Toggle theme</span>
 </Button>
 
+<div class="fixed top-10 left-10">
+	<a href="/" aria-label="Go to homepage">
+		<Button variant="outline"><House /></Button>
+	</a>
+</div>
+
 <div
-	class="w-screen h-screen flex flex-col p-8 gap-10 bg h-screen justify-center items-center"
+	class="w-screen h-screen flex-1 flex flex-col p-8 gap-10 bg h-screen justify-center items-center"
 	style="--progress: {timerProgress()}"
 >
 	<div class="wave-bg">
@@ -143,6 +151,8 @@
 			</p>
 		{/if}
 	</div>
+
+	<Watermark />
 </div>
 
 <style lang="scss">
