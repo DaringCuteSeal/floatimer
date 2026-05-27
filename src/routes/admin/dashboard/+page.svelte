@@ -9,6 +9,7 @@
 	import * as Dialog from "$lib/components/ui/dialog/index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
 	import Settings from "@lucide/svelte/icons/settings";
+	import Search from "@lucide/svelte/icons/search";
 	import SunIcon from "@lucide/svelte/icons/sun";
 	import MoonIcon from "@lucide/svelte/icons/moon";
 	import CircleSmall from "@lucide/svelte/icons/circle-small";
@@ -60,6 +61,8 @@
 	let calValue: CalendarDate = $state(
 		toCalendarDate(fromDate(data.date, public_cfg.TIMEZONE)),
 	);
+
+	let subjectFilterValue = $state("");
 
 	$effect(() => {
 		goto(`?date=${dateFormatMachine(calValue.toDate(public_cfg.TIMEZONE))}`, {
@@ -153,6 +156,16 @@
 									</Drawer.Description>
 								</Drawer.Header>
 
+								<div class="p-4 flex flex-row gap-3">
+									<Search />
+									<Input
+										bind:value={subjectFilterValue}
+										name="filter"
+										placeholder="Cari.."
+										required
+									/>
+								</div>
+
 								<div class="p-4 space-y-2">
 									<div class="flex gap-2">
 										<form
@@ -179,26 +192,30 @@
 											Belum ada mata pelajaran. Tambah satu?
 										</div>
 									{:else}
-										<ScrollArea class="h-72 rounded-md border">
+										<ScrollArea class="h-80 rounded-md border">
 											{#each data.subjects as subject (subject.id)}
-												<div
-													class="flex items-center justify-between rounded-md border p-2"
-												>
-													<span class="text-sm"
-														>{subject.name}</span
+												{#if subject.name
+													.toLowerCase()
+													.includes(subjectFilterValue.toLowerCase())}
+													<div
+														class="flex items-center justify-between rounded-md border p-2"
 													>
+														<span class="text-sm"
+															>{subject.name}</span
+														>
 
-													<div class="flex gap-2">
-														<EditDialog
-															subjectId={subject.id}
-															subjectName={subject.name}
-														/>
-														<DeleteDialog
-															subjectId={subject.id}
-															subjectName={subject.name}
-														/>
+														<div class="flex gap-2">
+															<EditDialog
+																subjectId={subject.id}
+																subjectName={subject.name}
+															/>
+															<DeleteDialog
+																subjectId={subject.id}
+																subjectName={subject.name}
+															/>
+														</div>
 													</div>
-												</div>
+												{/if}
 											{/each}
 										</ScrollArea>
 									{/if}
