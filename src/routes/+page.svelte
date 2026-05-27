@@ -47,6 +47,7 @@
 	});
 </script>
 
+
 <ModeWatcher />
 <Button
 	onclick={toggleMode}
@@ -166,8 +167,6 @@
 			{/each}
 		</div>
 	{:else}
-		<p class="justify-center text-center">
-			Tidak ada timer ujian untuk hari ini. Yay!
-		</p>
+		<p class="text-center">Tidak ada timer ujian untuk hari ini. Yay!</p>
 	{/if}
 </div>

@@ -3,6 +3,7 @@
 	import { Input } from "$lib/components/ui/input/index.js";
 	import * as Card from "$lib/components/ui/card/index.js";
 	import * as Field from "$lib/components/ui/field/index.js";
+	import Watermark from "$lib/components/ui/watermark/watermark.svelte";
 	import type { ActionData } from "./$types";
 	import { enhance } from "$app/forms";
 	let { form }: { form: ActionData } = $props();
@@ -60,17 +61,7 @@
 			</Card.Root>
 		</form>
 
-		<div class="flex justify-center pb-4">
-			<p>
-				Menggunakan
-				<u
-					><a href="https://github.com/Daringcuteseal/floatimer">
-						Floatimer</a
-					></u
-				>.
-				<Zap class="inline" />
-			</p>
-		</div>
+		<Watermark/>
 	</div>
 </div>
 
