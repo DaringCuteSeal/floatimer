@@ -127,6 +127,7 @@
 									variant="outline"
 									class="w-full justify-start"
 									id="subject"
+									aria-invalid={subjectSelectionError}
 								>
 									{selectedSubject
 										? selectedSubject.name
