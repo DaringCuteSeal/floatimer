@@ -142,40 +142,42 @@
 				class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 overflow-x-auto items-start"
 			>
 				{#each data.timers as timer (timer.id)}
-					<Card.Root class="w-full">
-						<Card.Header>
-							<Card.Title>
-								{#if timer.name == ""}
-									<i>Timer Tanpa Nama</i>
-								{:else}
-									{timer.name}
-								{/if}
-							</Card.Title>
-							<Card.Description>
-								{timer.subject?.name}
-							</Card.Description>
-						</Card.Header>
-						<Card.Content>
-							<p>
-								Waktu:
-								{String(timer.time_start.getHours()).padStart(
-									2,
-									"0",
-								)}:{String(timer.time_start.getMinutes()).padStart(
-									2,
-									"0",
-								)}
-								-
-								{String(timer.time_end.getHours()).padStart(
-									2,
-									"0",
-								)}:{String(timer.time_end.getMinutes()).padStart(
-									2,
-									"0",
-								)}
-							</p>
-						</Card.Content>
-					</Card.Root>
+					<a href="/timer/{timer.id}">
+						<Card.Root class="w-full">
+							<Card.Header>
+								<Card.Title>
+									{#if timer.name == ""}
+										<i>Timer Tanpa Nama</i>
+									{:else}
+										{timer.name}
+									{/if}
+								</Card.Title>
+								<Card.Description>
+									{timer.subject?.name}
+								</Card.Description>
+							</Card.Header>
+							<Card.Content>
+								<p>
+									Waktu:
+									{String(timer.time_start.getHours()).padStart(
+										2,
+										"0",
+									)}:{String(timer.time_start.getMinutes()).padStart(
+										2,
+										"0",
+									)}
+									-
+									{String(timer.time_end.getHours()).padStart(
+										2,
+										"0",
+									)}:{String(timer.time_end.getMinutes()).padStart(
+										2,
+										"0",
+									)}
+								</p>
+							</Card.Content>
+						</Card.Root>
+					</a>
 				{/each}
 			</div>
 		{:else}
