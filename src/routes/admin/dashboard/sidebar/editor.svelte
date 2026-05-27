@@ -38,9 +38,15 @@
 					<p>
 						<b>
 							Waktu:
-							{timer.time_start.getHours()}:{timer.time_start.getMinutes()}
+							{String(timer.time_start.getHours()).padStart(
+								2,
+								"0",
+							)}:{String(timer.time_start.getMinutes()).padStart(2, "0")}
 							-
-							{timer.time_end.getHours()}:{timer.time_end.getMinutes()}
+							{String(timer.time_end.getHours()).padStart(
+								2,
+								"0",
+							)}:{String(timer.time_end.getMinutes()).padStart(2, "0")}
 						</b>
 					</p>
 				</Card.Content>
