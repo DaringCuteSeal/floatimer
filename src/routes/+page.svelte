@@ -1,2 +1,131 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import { ModeWatcher, toggleMode } from "mode-watcher";
+	import { Button } from "$lib/components/ui/button/index.js";
+	import SunIcon from "@lucide/svelte/icons/sun";
+	import MoonIcon from "@lucide/svelte/icons/moon";
+	import ChevronDown from "@lucide/svelte/icons/chevron-down";
+	import * as Card from "$lib/components/ui/card";
+	import * as Popover from "$lib/components/ui/popover";
+	import { Calendar } from "$lib/components/ui/calendar";
+	import CircleSmall from "@lucide/svelte/icons/circle-small";
+	import {
+		CalendarDate,
+		fromDate,
+		toCalendarDate,
+		today,
+		type DateValue,
+	} from "@internationalized/date";
+	import type { PageServerData } from "./$types";
+	import { public_cfg } from "$lib/public_cfg";
+	import CalendarDay from "$lib/components/ui/calendar/calendar-day.svelte";
+	import { dateValueFormatMachine } from "$lib/utils";
+	import Label from "$lib/components/ui/label/label.svelte";
+
+	let {
+		data,
+	}: {
+		data: PageServerData;
+		children: import("svelte").Snippet;
+	} = $props();
+
+	let calValue: CalendarDate = $state(
+		toCalendarDate(fromDate(data.date, public_cfg.TIMEZONE)),
+	);
+
+	let calendarOpen = $state(false);
+
+	const thisDay = toCalendarDate(fromDate(data.thisDay, public_cfg.TIMEZONE));
+</script>
+
+<ModeWatcher />
+<Button
+	onclick={toggleMode}
+	variant="outline"
+	size="icon"
+	class="fixed bottom-10 left-10"
+>
+	<SunIcon
+		class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 !transition-all dark:scale-0 dark:-rotate-90"
+	/>
+	<MoonIcon
+		class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 !transition-all dark:scale-100 dark:rotate-0"
+	/>
+	<span class="sr-only">Toggle theme</span>
+</Button>
+
+<div class="flex flex-col m-5 gap-3">
+	<div class="flex flex-row gap-3 justify-center">
+		<Label for="date" class="px-1">Tanggal</Label>
+		<Popover.Root bind:open={calendarOpen}>
+			<Popover.Trigger id="date">
+				{#snippet child({ props })}
+					<Button
+						{...props}
+						variant="outline"
+						class="w-48 justify-between font-normal"
+					>
+						{calValue
+							? calValue.toDate(public_cfg.TIMEZONE).toLocaleDateString()
+							: "Select date"}
+						<ChevronDown />
+					</Button>
+				{/snippet}
+			</Popover.Trigger>
+			<Popover.Content class="w-auto overflow-hidden p-0" align="start">
+				<Card.Root class="max-w-xl w-full gap-3">
+					<Card.Header>
+						<Card.Title>Tanggal</Card.Title>
+						<Card.Description>Pilih tanggal.</Card.Description>
+						<Card.Action>
+							<Button
+								size="sm"
+								variant="outline"
+								onclick={() => (calValue = today(public_cfg.TIMEZONE))}
+							>
+								Hari ini
+							</Button>
+						</Card.Action>
+					</Card.Header>
+					<Card.Content>
+						<Calendar
+							locale="id-ID"
+							captionLayout="dropdown"
+							value={calValue}
+							type="single"
+							class="w-full rounded-md [&_table]:w-full [&_td]:w-full [&_th]:w-full"
+							onValueChange={(newDate) => {
+								if (!newDate) {
+									return;
+								}
+								calValue = toCalendarDate(newDate);
+							}}
+							minValue={thisDay}
+						>
+							{#snippet day({ day })}
+								{@const existsDate = data.dateWithTimers.has(
+									dateValueFormatMachine(day),
+								)}
+								<CalendarDay class="flex flex-col items-center">
+									{day.day}
+									{#if existsDate && day.compare(thisDay) >= 0}
+										<span>
+											<CircleSmall fill="white" size={10} />
+										</span>
+									{/if}
+								</CalendarDay>
+							{/snippet}
+						</Calendar>
+					</Card.Content>
+				</Card.Root>
+			</Popover.Content>
+		</Popover.Root>
+	</div>
+	<Card.Root class="max-w-full w-full">
+		<Card.Header>
+			<Card.Title>Daftar Ujian</Card.Title>
+			<Card.Description
+				>Pilih kartu untuk lanjut ke tampilan timer.</Card.Description
+			>
+		</Card.Header>
+	</Card.Root>
+</div>
