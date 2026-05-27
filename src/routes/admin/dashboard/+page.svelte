@@ -96,24 +96,24 @@
 						<Card.Content>
 							<Calendar
 								locale="id-ID"
-								bind:value={calValue}
 								captionLayout="dropdown"
+								value={calValue}
 								type="single"
 								class="w-full rounded-md [&_table]:w-full [&_td]:w-full [&_th]:w-full"
 								onValueChange={(newDate) => {
-									// by default, the calendar will set to null if user clicks the active date again.
-									// this prevents it. the ui will still update tho :\
-									if (newDate != undefined) {
-										calValue = toCalendarDate(newDate);
-										goto(
-											`?date=${dateFormatMachine(calValue.toDate(public_cfg.TIMEZONE))}`,
-											{
-												replaceState: true,
-												keepFocus: true,
-												noScroll: true,
-											},
-										);
+									if (!newDate) {
+										return;
 									}
+
+									calValue = toCalendarDate(newDate);
+									goto(
+										`?date=${dateFormatMachine(calValue.toDate(public_cfg.TIMEZONE))}`,
+										{
+											replaceState: true,
+											keepFocus: true,
+											noScroll: true,
+										},
+									);
 								}}
 							>
 								{#snippet day({ day })}
