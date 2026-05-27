@@ -23,6 +23,7 @@
 	import { dateFormatMachine, dateValueFormatMachine } from "$lib/utils";
 	import Label from "$lib/components/ui/label/label.svelte";
 	import { goto } from "$app/navigation";
+	import { PUBLIC_TITLE } from "$env/static/public";
 
 	let {
 		data,
@@ -64,8 +65,9 @@
 	<span class="sr-only">Toggle theme</span>
 </Button>
 
-<div class="min-h-screen flex flex-col bg">
-	<div class="flex flex-col m-5 gap-5 items-center flex-1">
+<div class="min-h-screen flex flex-col p-4 bg">
+	<h1 class="text-2xl font-bold text-center">{PUBLIC_TITLE}</h1>
+	<div class="flex flex-col m-5 gap-5 flex-1">
 		<div class="flex justify-center items-center">
 			<Popover.Root bind:open={calendarOpen}>
 				<Popover.Trigger id="date">
@@ -137,10 +139,10 @@
 		</div>
 		{#if data.timers.length > 0}
 			<div
-				class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 overflow-x-auto items-start"
+				class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 overflow-x-auto items-start"
 			>
 				{#each data.timers as timer (timer.id)}
-					<Card.Root>
+					<Card.Root class="w-full">
 						<Card.Header>
 							<Card.Title>
 								{#if timer.name == ""}
