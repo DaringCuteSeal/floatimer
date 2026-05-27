@@ -15,6 +15,7 @@
 	import * as InputGroup from "$lib/components/ui/input-group/index.js";
 	import { onMount } from "svelte";
 	import type { subjects } from "$lib/server/db/subjects.schema";
+	import SquarePen from "@lucide/svelte/icons/square-pen";
 
 	let {
 		subjectsData,
@@ -92,6 +93,7 @@
 		type="button"
 		class={`w-full ${buttonVariants({ variant: "default" })}`}
 	>
+		<SquarePen />
 		Sunting
 	</Dialog.Trigger>
 	<Dialog.Content>
@@ -257,7 +259,7 @@
 						value={selectedSubject.id}
 					/>
 				{/if}
-				<input type="hidden" name="id" value={String(timerId)} />
+				<input type="hidden" name="id" value={timerId} />
 				<input type="hidden" name="date" value={date.toISOString()} />
 				<Button type="submit">Simpan Perubahan</Button>
 			</Dialog.Footer>

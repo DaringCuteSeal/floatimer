@@ -12,6 +12,8 @@
 	import type { subjects } from "$lib/server/db/subjects.schema";
 	import AddTimerCard from "./add-timer-card.svelte";
 	import EditTimerDialog from "./edit-timer-dialog.svelte";
+	import { enhance } from "$app/forms";
+	import TimerDeleteDialog from "./timer-delete-dialog.svelte";
 
 	let {
 		subjectsData,
@@ -68,7 +70,12 @@
 						defaultSubject={timer.subject}
 						timerId={timer.id}
 					/>
-					<Button variant="destructive" class="w-full">Hapus</Button>
+
+					<TimerDeleteDialog
+						timerId={timer.id}
+						timerName={timer.name}
+						class="w-full"
+					/>
 				</Card.Footer>
 			</Card.Root>
 		{/each}

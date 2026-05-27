@@ -174,6 +174,17 @@ export const actions: Actions = {
 			return error(500, "Gagal menyunting timer!");
 		}
 	},
+	deleteTimer: async ({ request }) => {
+		const formData = await request.formData();
+		const id = formData.get('id')?.toString() ?? NaN;
+		const idNum = Number(id);
+
+		try {
+			await db.delete(timers).where(eq(timers.id, idNum));
+		} catch (err) {
+			return error(500, "Gagal menghapus timer!");
+		}
+	}
 };
 
 export const load: PageServerLoad = async (event) => {
