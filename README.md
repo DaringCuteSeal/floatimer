@@ -9,7 +9,7 @@ Aplikasi ini merupakan aplikasi web yang ditulis dengan [SvelteKit](https://svel
 ## Screenshot
 
 ### Timer
-Visualisasi unik: air yang perlahan akan semakin memenuhi layar sesuai progres timer.
+Visualisasi unik: air yang perlahan naik akan semakin memenuhi layar sesuai progres timer.
 
 ![Preview in light mode](docs/assets/light.png)
 ![Preview in dark mode](docs/assets/dark.png)
