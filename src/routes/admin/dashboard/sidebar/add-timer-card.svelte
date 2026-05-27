@@ -20,11 +20,19 @@
 	let {
 		subjectsData,
 		date,
+		formAction,
 		class: ClassName,
+		defaultName,
+		defaultStartTime,
+		defaultEndTime,
 	}: {
 		subjectsData: Array<InferSelectModel<typeof subjects>>;
 		date: Date;
+		formAction: string;
 		class?: string;
+		defaultName?: string;
+		defaultStartTime?: string;
+		defaultEndTime?: string;
 	} = $props();
 
 	let subjectSelectionOpen = $state(false);
@@ -60,12 +68,15 @@
 			selectedSubject = null;
 		}
 	});
+
+	let startTime = $state(defaultStartTime ?? "");
+	let endTime = $state(defaultEndTime ?? "");
 </script>
 
 <Card.Root class={ClassName}>
 	<form
 		method="post"
-		action="?/addTimer"
+		action={formAction}
 		class="contents"
 		use:enhance={() => {
 			// prevent submission if subject hasn't been chosen yet.
@@ -89,13 +100,14 @@
 			<div class="grid gap-4">
 				<div class="grid gap-3">
 					<Label for="new-name">Nama</Label>
-					<Input id="new-name" name="name" required />
+					<Input id="new-name" name="name" value={defaultName} required />
 
 					<div class="flex flex-row gap-3 items-center">
 						<div class="w-full flex-col gap-2 flex">
 							<Label for="time-start">Waktu Mulai</Label>
 							<InputGroup.Root>
 								<InputGroup.Input
+									bind:value={startTime}
 									id="time-start"
 									type="time"
 									name="time_start"
@@ -115,6 +127,8 @@
 							<Label for="time-end">Waktu Selesai</Label>
 							<InputGroup.Root>
 								<InputGroup.Input
+									bind:value={endTime}
+									min={startTime}
 									id="time-end"
 									type="time"
 									name="time_end"

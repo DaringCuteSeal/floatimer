@@ -31,8 +31,8 @@
 	import { buttonVariants } from "$lib/components/ui/button";
 
 	import { enhance } from "$app/forms";
-	import EditDialog from "./sidebar/edit-dialog.svelte";
-	import DeleteDialog from "./sidebar/delete-dialog.svelte";
+	import SubjectEditDialog from "./sidebar/subject-edit-dialog.svelte";
+	import SubjectDeleteDialog from "./sidebar/subject-delete-dialog.svelte";
 	import Editor from "./sidebar/editor.svelte";
 	import { Separator } from "$lib/components/ui/separator";
 	import * as Breadcrumb from "$lib/components/ui/breadcrumb";
@@ -211,11 +211,11 @@
 														>
 
 														<div class="flex gap-2">
-															<EditDialog
+															<SubjectEditDialog
 																subjectId={subject.id}
 																subjectName={subject.name}
 															/>
-															<DeleteDialog
+															<SubjectDeleteDialog
 																subjectId={subject.id}
 																subjectName={subject.name}
 															/>

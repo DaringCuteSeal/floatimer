@@ -63,7 +63,7 @@
 				</Card.Footer>
 			</Card.Root>
 		{/each}
-		<AddTimerCard {subjectsData} {date} />
+		<AddTimerCard {subjectsData} {date} formAction="?/addTimer" />
 	</div>
 {:else}
 	<Empty {subjectsData} {date} />

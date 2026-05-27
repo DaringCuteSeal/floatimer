@@ -25,7 +25,12 @@
 		</Empty.Description>
 	</Empty.Header>
 	<Empty.Content>
-		<AddTimerCard {subjectsData} {date} class="w-full" />
+		<AddTimerCard
+			{subjectsData}
+			{date}
+			class="w-full"
+			formAction="?/addTimer"
+		/>
 	</Empty.Content>
 	<Button variant="link" class="text-muted-foreground" size="sm">
 		<a href="#/">
