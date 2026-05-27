@@ -63,6 +63,7 @@
 	let calValue: CalendarDate = $state(
 		toCalendarDate(fromDate(data.date, public_cfg.TIMEZONE)),
 	);
+	const thisDay = toCalendarDate(fromDate(data.thisDay, public_cfg.TIMEZONE));
 
 	let subjectFilterValue = $state("");
 
@@ -114,6 +115,7 @@
 									}
 									calValue = toCalendarDate(newDate);
 								}}
+								minValue={thisDay}
 							>
 								{#snippet day({ day })}
 									{@const existsDate = data.dateWithTimers.has(
@@ -121,7 +123,7 @@
 									)}
 									<CalendarDay class="flex flex-col items-center">
 										{day.day}
-										{#if existsDate}
+										{#if existsDate && day.compare(thisDay) >= 0}
 											<span>
 												<CircleSmall fill="white" size={10} />
 											</span>

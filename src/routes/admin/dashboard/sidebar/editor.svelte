@@ -10,6 +10,7 @@
 	import * as Card from "$lib/components/ui/card/index.js";
 	import type { DB } from "better-auth/adapters/drizzle";
 	import type { subjects } from "$lib/server/db/subjects.schema";
+	import AddTimerDialog from "./add-timer-dialog.svelte";
 
 	let {
 		subjectsData,
@@ -28,7 +29,11 @@
 			<Card.Root class="">
 				<Card.Header>
 					<Card.Title>
-						{timer.name}
+						{#if timer.name == ""}
+							<i>Timer Tanpa Nama</i>
+						{:else}
+							{timer.name}
+						{/if}
 					</Card.Title>
 					<Card.Description>
 						{timer.subject?.name}
@@ -56,6 +61,11 @@
 				</Card.Footer>
 			</Card.Root>
 		{/each}
+		<Card.Root class="">
+			<Card.Content class="h-full items-center justify-center flex flex-col">
+				<AddTimerDialog btnLabel="" {subjectsData} {date} />
+			</Card.Content>
+		</Card.Root>
 	</div>
 {:else}
 	<Empty {subjectsData} {date} />

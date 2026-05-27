@@ -200,5 +200,5 @@ export const load: PageServerLoad = async (event) => {
 
 	}
 
-	return { user: event.locals.user, subjects: subjectsData, timers: timersData, date: targetDate.toDate(public_cfg.TIMEZONE), dateWithTimers: timerCountsData };
+	return { user: event.locals.user, subjects: subjectsData, timers: timersData, date: targetDate.toDate(public_cfg.TIMEZONE), thisDay: today(public_cfg.TIMEZONE).toDate(public_cfg.TIMEZONE), dateWithTimers: timerCountsData };
 };
