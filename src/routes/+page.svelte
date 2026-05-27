@@ -53,8 +53,8 @@
 	<span class="sr-only">Toggle theme</span>
 </Button>
 
-<div class="flex flex-col m-5 gap-3">
-	<div class="flex flex-row gap-3 justify-center">
+<div class="flex flex-col m-5 gap-5">
+	<div class="flex flex-row gap-5 justify-center">
 		<Label for="date" class="px-1">Tanggal</Label>
 		<Popover.Root bind:open={calendarOpen}>
 			<Popover.Trigger id="date">
@@ -72,7 +72,7 @@
 				{/snippet}
 			</Popover.Trigger>
 			<Popover.Content class="w-auto overflow-hidden p-0" align="start">
-				<Card.Root class="max-w-xl w-full gap-3">
+				<Card.Root class="max-w-xl w-full gap-5">
 					<Card.Header>
 						<Card.Title>Tanggal</Card.Title>
 						<Card.Description>Pilih tanggal.</Card.Description>

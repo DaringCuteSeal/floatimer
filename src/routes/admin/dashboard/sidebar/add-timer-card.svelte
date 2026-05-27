@@ -98,11 +98,17 @@
 		</Card.Header>
 		<Card.Content>
 			<div class="grid gap-4">
-				<div class="grid gap-3">
+				<div class="grid gap-5">
 					<Label for="new-name">Nama</Label>
-					<Input id="new-name" name="name" value={defaultName} required />
+					<Input
+						id="new-name"
+						placeholder="Asesmen Aritmatika Sosial"
+						name="name"
+						value={defaultName}
+						required
+					/>
 
-					<div class="flex flex-row gap-3 items-center">
+					<div class="flex flex-row gap-5 items-center">
 						<div class="w-full flex-col gap-2 flex">
 							<Label for="time-start">Waktu Mulai</Label>
 							<InputGroup.Root>

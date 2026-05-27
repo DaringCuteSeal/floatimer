@@ -159,7 +159,7 @@
 									</Drawer.Description>
 								</Drawer.Header>
 
-								<div class="p-4 flex flex-row gap-3">
+								<div class="p-4 flex flex-row gap-5">
 									<InputGroup.Root>
 										<InputGroup.Input
 											bind:value={subjectFilterValue}
@@ -178,7 +178,7 @@
 											method="post"
 											action="?/addSubject"
 											use:enhance
-											class="flex-1 flex flex-row gap-3"
+											class="flex-1 flex flex-row gap-5"
 										>
 											<Input
 												name="name"

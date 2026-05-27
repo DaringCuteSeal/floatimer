@@ -127,7 +127,7 @@
 					<Label for="new-name">Nama</Label>
 					<Input id="new-name" name="name" value={defaultName} required />
 
-					<div class="flex flex-row gap-3 items-center">
+					<div class="flex flex-row gap-5 items-center">
 						<div class="w-full flex-col gap-2 flex">
 							<Label for="time-start">Waktu Mulai</Label>
 							<InputGroup.Root>
