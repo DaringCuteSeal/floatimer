@@ -24,7 +24,9 @@
 </script>
 
 {#if timersData.length > 0}
-	<div class="grid grid-cols-2 md:grid-cols-3 gap-5 overflow-x-auto">
+	<div
+		class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 overflow-x-auto"
+	>
 		{#each timersData as timer (timer.id)}
 			<Card.Root class="">
 				<Card.Header>
@@ -61,11 +63,7 @@
 				</Card.Footer>
 			</Card.Root>
 		{/each}
-		<Card.Root class="">
-			<Card.Content class="h-full items-center justify-center flex flex-col">
-				<AddTimerDialog btnLabel="" {subjectsData} {date} />
-			</Card.Content>
-		</Card.Root>
+		<AddTimerDialog btnLabel="" {subjectsData} {date} />
 	</div>
 {:else}
 	<Empty {subjectsData} {date} />

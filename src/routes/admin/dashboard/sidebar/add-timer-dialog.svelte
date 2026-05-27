@@ -11,12 +11,12 @@
 	import { browser } from "$app/environment";
 	import * as Command from "$lib/components/ui/command/index.js";
 	import * as Drawer from "$lib/components/ui/drawer/index.js";
+	import * as Card from "$lib/components/ui/card/index.js";
 	import * as Popover from "$lib/components/ui/popover/index.js";
 	import { onMount } from "svelte";
 	import type { subjects } from "$lib/server/db/subjects.schema";
 
 	let {
-		btnLabel,
 		subjectsData,
 		date,
 	}: {
@@ -24,8 +24,6 @@
 		subjectsData: Array<InferSelectModel<typeof subjects>>;
 		date: Date;
 	} = $props();
-
-	let addDialogOpen = $state(false);
 
 	let subjectSelectionOpen = $state(false);
 	let subjectSelectionError = $state(false);
@@ -50,44 +48,42 @@
 		subjectSelectionError = false;
 		subjectSelectionOpen = false;
 	}
+
+	$effect(() => {
+		// when the subjectsData gets updated (user deletes subject) it might disappear already.
+		if (selectedSubject == null) {
+			return;
+		}
+		if (!subjectsData.some((v) => v.id == selectedSubject?.id)) {
+			selectedSubject = null;
+		}
+	});
 </script>
 
-<Dialog.Root bind:open={addDialogOpen}>
-	<Dialog.Trigger
-		type="button"
-		class={buttonVariants({
-			variant: "default",
-		})}
+<Card.Root>
+	<form
+		method="post"
+		action="?/addTimer"
+		class="contents"
+		use:enhance={() => {
+			// prevent submission if subject hasn't been chosen yet.
+			// gotta be handled manually as the input is just a button that doesn't contain any value.
+			// (the real value is under our hidden input with value of selectedSubject.id)
+			if (selectedSubject == null) {
+				subjectSelectionError = true;
+				return async () => {};
+			}
+			return async ({ result, update }) => {
+				selectedSubject = null; // TODO: unelegant hm
+				await update();
+			};
+		}}
 	>
-		<Plus />
-		{btnLabel}
-	</Dialog.Trigger>
-	<Dialog.Content class="sm:max-w-[425px]">
-		<form
-			method="post"
-			action="?/addTimer"
-			class="contents"
-			use:enhance={() => {
-				// prevent submission if subject hasn't been chosen yet.
-				// gotta be handled manually as the input is just a button that doesn't contain any value.
-				// (the real value is under our hidden input with value of selectedSubject.id)
-				if (selectedSubject == null) {
-					subjectSelectionError = true;
-					return async () => {};
-				}
-				return async ({ result, update }) => {
-					if (result.type === "success") {
-						addDialogOpen = false;
-					}
-					selectedSubject = null; // TODO: unelegant hm
-					await update();
-				};
-			}}
-		>
-			<Dialog.Header>
-				<Dialog.Title>Tambah Timer</Dialog.Title>
-				<Dialog.Description>Tambahkan timer ujian.</Dialog.Description>
-			</Dialog.Header>
+		<Card.Header>
+			<Card.Title>Tambah Timer</Card.Title>
+			<Card.Description>Tambahkan timer ujian.</Card.Description>
+		</Card.Header>
+		<Card.Content>
 			<div class="grid gap-4">
 				<div class="grid gap-3">
 					<Label for="new-name">Nama</Label>
@@ -197,25 +193,13 @@
 					{/if}
 				</div>
 			</div>
-			<Dialog.Footer>
-				<Dialog.Close
-					type="button"
-					class={buttonVariants({
-						variant: "outline",
-					})}
-				>
-					Batal
-				</Dialog.Close>
-				{#if selectedSubject != null}
-					<input
-						type="hidden"
-						name="subject_id"
-						value={selectedSubject.id}
-					/>
-					<input type="hidden" name="date" value={date.toISOString()} />
-				{/if}
-				<Button type="submit">Buat Timer</Button>
-			</Dialog.Footer>
-		</form>
-	</Dialog.Content>
-</Dialog.Root>
+		</Card.Content>
+		<Card.Footer>
+			{#if selectedSubject != null}
+				<input type="hidden" name="subject_id" value={selectedSubject.id} />
+				<input type="hidden" name="date" value={date.toISOString()} />
+			{/if}
+			<Button type="submit">Buat Timer</Button>
+		</Card.Footer>
+	</form>
+</Card.Root>
