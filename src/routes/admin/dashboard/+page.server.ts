@@ -127,6 +127,53 @@ export const actions: Actions = {
 			return error(500, "Gagal menambahkan timer!");
 		}
 	},
+	editTimer: async ({ request }) => {
+		const formData = await request.formData();
+		const id = formData.get('id')?.toString() ?? NaN;
+		const idNum = Number(id);
+		const name = formData.get('name')?.toString() ?? '';
+		const date = formData.get('date')?.toString() ?? '';
+		const startTime = formData.get('time_start')?.toString() ?? '';
+		const endTime = formData.get('time_end')?.toString() ?? '';
+		const subjectId = formData.get('subject_id')?.toString() ?? NaN;
+		const subjectIdNum = Number(subjectId)
+
+		if (isNaN(idNum)) {
+			return error(400, "ID timer tidak ditemukan dalam database!")
+		}
+		if (isNaN(subjectIdNum)) {
+			return error(400, "ID mata pelajaran tidak ditemukan dalam database!")
+		}
+
+		let startDate: DateValue;
+		let endDate: DateValue;
+		try {
+			startDate = parseAbsolute(date, public_cfg.TIMEZONE);
+			endDate = startDate;
+		} catch {
+			return error(400, "Tanggal tidak valid!")
+		}
+
+		let startDateTime;
+		let endDateTime;
+		try {
+			startDateTime = combineDateAndTime(startDate, startTime);
+			endDateTime = combineDateAndTime(endDate, endTime);
+		} catch {
+			return error(400, "Format waktu tidak valid!")
+		}
+
+		try {
+			await db.update(timers).set({
+				name,
+				subject: subjectIdNum,
+				time_start: startDateTime,
+				time_end: endDateTime
+			}).where(eq(timers.id, idNum));
+		} catch (err) {
+			return error(500, "Gagal menyunting timer!");
+		}
+	},
 };
 
 export const load: PageServerLoad = async (event) => {
@@ -164,7 +211,8 @@ export const load: PageServerLoad = async (event) => {
 
 			with: {
 				subject: true
-			}
+			},
+			orderBy: (timers, { asc }) => [asc(timers.id)]
 		});
 	} catch (err) {
 		return error(500, "Gagal mendapatkan daftar timer!");

@@ -11,6 +11,7 @@
 	import type { DB } from "better-auth/adapters/drizzle";
 	import type { subjects } from "$lib/server/db/subjects.schema";
 	import AddTimerCard from "./add-timer-card.svelte";
+	import EditTimerDialog from "./edit-timer-dialog.svelte";
 
 	let {
 		subjectsData,
@@ -58,7 +59,15 @@
 					</p>
 				</Card.Content>
 				<Card.Footer class="flex-col gap-2">
-					<Button type="submit" class="w-full">Sunting</Button>
+					<EditTimerDialog
+						{date}
+						{subjectsData}
+						defaultName={timer.name}
+						defaultStartTime={`${String(timer.time_start.getHours()).padStart(2, "0")}:${String(timer.time_start.getMinutes()).padStart(2, "0")}`}
+						defaultEndTime={`${String(timer.time_end.getHours()).padStart(2, "0")}:${String(timer.time_end.getMinutes()).padStart(2, "0")}`}
+						defaultSubject={timer.subject}
+						timerId={timer.id}
+					/>
 					<Button variant="destructive" class="w-full">Hapus</Button>
 				</Card.Footer>
 			</Card.Root>
