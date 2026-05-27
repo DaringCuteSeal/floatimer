@@ -4,6 +4,7 @@ Aplikasi timer ujian untuk _smart board_ (atau perangkat lain) paling keren yang
 Aplikasi ini merupakan aplikasi web yang ditulis dengan [SvelteKit](https://svelte.dev/docs/kit). Beberapa library yang digunakan di antaranya:
 - [better-auth](https://better-auth.com/)
 - [shadcn-svelte](https://www.shadcn-svelte.com/)
+- [Drizzle ORM](https://orm.drizzle.team/)
 
 ## Screenshot
 
