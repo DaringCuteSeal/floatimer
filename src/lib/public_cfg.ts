@@ -1,9 +1,5 @@
 import { env } from "$env/dynamic/public";
 
-if (!env.PUBLIC_FLOATIMER_TIMEZONE || typeof env.PUBLIC_FLOATIMER_TIMEZONE != "string") {
-	throw new Error("Missing FLOATIMER_TIMEZONE");
-}
-
 export type PublicConfig = {
 	TIMEZONE: string
 	TITLE: string
