@@ -28,7 +28,7 @@
 		<AddTimerCard {subjectsData} {date} formAction="?/addTimer" />
 	</Empty.Content>
 	<Button variant="link" class="text-muted-foreground" size="sm">
-		<a href="#/">
+		<a href="https://github.com/Daringcuteseal/floatimer">
 			Pelajari lebih lanjut<ArrowUpRightIcon class="inline" />
 		</a>
 	</Button>
