@@ -11,7 +11,7 @@
 </script>
 
 <div class="bg">
-	<div class="bg min-h-screen flex flex-col">
+	<div class="min-h-screen flex flex-col">
 		<form
 			method="post"
 			action="?/signInEmail"
@@ -61,7 +61,7 @@
 			</Card.Root>
 		</form>
 
-		<Watermark/>
+		<Watermark />
 	</div>
 </div>
 
