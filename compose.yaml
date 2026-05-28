@@ -29,6 +29,8 @@ services:
       - BETTER_AUTH_SECRET=secretkey
       - BETTER_AUTH_URL=http://floatimer.my.page
       - PUBLIC_FLOATIMER_TIMEZONE=Asia/Jakarta
+      # Important: make sure the system's time zone is the same as the app's time zone (defined above)!
+      - TZ=Asia/Jakarta
       - PUBLIC_TITLE=Timer Ujian Sekolah XYZ
       - ADMIN_API_KEY=myapikey
     restart: unless-stopped
