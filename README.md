@@ -36,13 +36,14 @@ Kami menggunakan website [time.is](https://time.is/) sebagai timer ujian, tetapi
 
 ## Instalasi & Panduan Penggunaan
 
-### Deploy
-Sesuaikan dengan adaptermu: [svelte.dev/docs/kit/adapters](https://svelte.dev/docs/kit/adapters).
+### Deployment
+- Jika menggunakan docker, tinggal jalankan: `docker compose build`, lalu `docker compose run`.
+- Jika tidak mau menggunakan Docker, ikuti panduan pada: [svelte.dev/docs/kit/adapters](https://svelte.dev/docs/kit/adapters).
 
 ### Membuat Akun
 Tidak ada interface web khusus untuk membuat akun administrator, gunakan endpoint `/admin-api/create-user`. Misalnya (dengan cURL):
 
-```sh
+```
 curl -X POST https://floatimer.my.page/admin-api/create-user -H 'x-api-key: xxxxxxxxxxxxxx' -H "Content-Type: application/json" -d '{"username": "myname", "email": "myname@mail.com", "password": "mypassword"}'
 ```
 
