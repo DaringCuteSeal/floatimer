@@ -14,7 +14,7 @@
 
 	const { data } = $props();
 
-	let currentTime = $state(new Date());
+	let currentTime = $state(new Date(data.time));
 	let totalTime = $derived(
 		data.timerInfo.time_end.getTime() - data.timerInfo.time_start.getTime(),
 	);
