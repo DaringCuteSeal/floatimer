@@ -137,7 +137,7 @@
 			</Card.Root>
 			<Card.Root class="w-full m-10 [--card:rgba(20,20,25,0.2)]">
 				<p class="text-center text-[clamp(1rem,4vw,6rem)]">Sisa Waktu</p>
-				<p class="text-center text-[clamp(2rem,14vw,13rem)] font-mono">
+				<p class="text-center text-[clamp(2rem,14vw,9rem)] font-mono">
 					{formatDuration(durationLeft)}
 				</p>
 			</Card.Root>
