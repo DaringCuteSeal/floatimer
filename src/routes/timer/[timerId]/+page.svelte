@@ -128,16 +128,14 @@
 		class="flex flex-col p-8 gap-10 bg h-screen justify-center items-center"
 	>
 		{#if examState == ExamState.RUNNING}
-			<Card.Root class="h-fit self-start w-6/10 [--card:rgba(20,20,25,0.2)]">
+			<Card.Root class="h-fit w-6/10 [--card:rgba(20,20,25,0.2)]">
 				<p class="text-center text-[clamp(1rem,2vw,3rem)]">Sekarang Jam</p>
 
 				<p class="text-center text-[clamp(1rem,5vw,4rem)] font-mono">
 					{timeFormatter.format(currentTime)}
 				</p>
 			</Card.Root>
-			<Card.Root
-				class="w-full h-fit self-start m-10 [--card:rgba(20,20,25,0.2)]"
-			>
+			<Card.Root class="w-full h-fit m-10 [--card:rgba(20,20,25,0.2)]">
 				<p class="text-center text-[clamp(1rem,4vw,6rem)]">Sisa Waktu</p>
 				<p class="text-center text-[clamp(2rem,14vw,9rem)] font-mono">
 					{formatDuration(durationLeft)}
