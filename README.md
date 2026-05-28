@@ -6,6 +6,14 @@ Aplikasi ini merupakan aplikasi web yang ditulis dengan [SvelteKit](https://svel
 - [shadcn-svelte](https://www.shadcn-svelte.com/)
 - [Drizzle ORM](https://orm.drizzle.team/)
 
+## Fitur
+- Admin dashboard untuk mengelola semua timer.
+- Tema gelap.
+- Tampilan responsif.
+- Visualisasi timer yang menarik.
+- Sinkronisasi informasi timer dengan server (setiap beberapa waktu), timer yang sedang berjalan dapat langsung diperbarui.
+- Penggunaan waktu server: waktu selalu dalam zona waktu server dan tidak dipengaruhi waktu pada perangkat.
+
 ## Screenshot
 
 ### Timer
