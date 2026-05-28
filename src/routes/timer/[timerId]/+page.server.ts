@@ -15,11 +15,14 @@ export const load: PageServerLoad = async (event) => {
 		return error(400, "ID timer tidak valid");
 	}
 
-	let timerItem: InferSelectModel<typeof timers> | undefined;
+	let timerItem;
 	// idk if it's supposed to throw an error but uh sure
 	try {
 		timerItem = await db.query.timers.findFirst({
-			where: (timers, { eq }) => eq(timers.id, timerIdNum)
+			where: (timers, { eq }) => eq(timers.id, timerIdNum),
+			with: {
+				subject: true
+			}
 
 		})
 	} catch {
