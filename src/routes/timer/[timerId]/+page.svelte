@@ -116,7 +116,7 @@
 	</a>
 </div>
 
-<div class="fixed bottom-10 right-10">
+<div class="fixed top-10 right-10">
 	<div class="flex flex-row gap-3">
 		<Switch id="effects" bind:checked={effectsEnabled} />
 		<Label for="effects">Kolam berenang</Label>
