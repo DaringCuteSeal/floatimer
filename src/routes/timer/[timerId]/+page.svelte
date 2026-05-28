@@ -131,13 +131,13 @@
 			<Card.Root class="h-fit w-6/10 [--card:rgba(20,20,25,0.2)]">
 				<p class="text-center text-[clamp(1rem,2vw,3rem)]">Sekarang Jam</p>
 
-				<p class="text-center text-[clamp(1rem,5vw,4rem)] font-mono">
+				<p class="text-center text-[clamp(1rem,4vw,8rem)] font-mono">
 					{timeFormatter.format(currentTime)}
 				</p>
 			</Card.Root>
 			<Card.Root class="w-full h-fit m-10 [--card:rgba(20,20,25,0.2)]">
-				<p class="text-center text-[clamp(1rem,4vw,6rem)]">Sisa Waktu</p>
-				<p class="text-center text-[clamp(2rem,14vw,9rem)] font-mono">
+				<p class="text-center text-[clamp(1rem,4vw,7rem)]">Sisa Waktu</p>
+				<p class="text-center text-[clamp(2rem,10vw,29rem)] font-mono">
 					{formatDuration(durationLeft)}
 				</p>
 			</Card.Root>
