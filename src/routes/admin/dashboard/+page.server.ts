@@ -206,8 +206,11 @@ export const load: PageServerLoad = async (event) => {
 		}
 	}
 
-	let startDate = targetDate.toDate(public_cfg.TIMEZONE);
-	let endDate = targetDate.toDate(public_cfg.TIMEZONE);
+	let baseDate = targetDate.toDate(public_cfg.TIMEZONE);
+	let startDate = new Date(baseDate);
+	startDate.setHours(0, 0, 0, 0);
+
+	let endDate = new Date(startDate);
 	endDate.setDate(startDate.getDate() + 1);
 
 	let timersData: Array<InferSelectModel<typeof timers>>;
