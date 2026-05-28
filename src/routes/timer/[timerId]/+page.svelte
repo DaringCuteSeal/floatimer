@@ -129,7 +129,7 @@
 		class="flex flex-col p-8 gap-10 bg h-screen justify-center items-center"
 	>
 		{#if examState == ExamState.RUNNING}
-			<p class="text-center text-[clamp(1rem,2vw,3rem)]">
+			<p class="text-center text-[clamp(1rem,1vw,2rem)]">
 				<b>{data.timerInfo.name}</b> ({data.timerInfo.subject.name})
 			</p>
 			<Card.Root class="h-fit w-6/10 [--card:rgba(20,20,25,0.2)]">
