@@ -1,4 +1,4 @@
-import { json, error, fail, type RequestHandler } from '@sveltejs/kit';
+import { json, error, type RequestHandler } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 import { auth } from '$lib/server/auth';
 import { APIError } from 'better-auth/api';
@@ -9,8 +9,7 @@ type RequestField = {
 	password: string | undefined
 }
 
-// @ts-ignore: false positive
-export const POST = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	const key = request.headers.get("x-api-key");
 
 	if (!key || key !== env.ADMIN_API_KEY) {
@@ -37,12 +36,19 @@ export const POST = async ({ request }) => {
 				name: requestData.username,
 				callbackURL: '/auth/verification-success'
 			}
-		})
-	} catch (error) {
-		if (error instanceof APIError) {
-			return fail(400, { message: error.message || "Registration failed" })
+		});
+	} catch (err) {
+		if (err instanceof APIError) {
+			return json(
+				{ message: err.message || "Registration failed" },
+				{ status: 400 }
+			);
 		}
-		return fail(500, { message: "Unexpected server error" });
+
+		return json(
+			{ message: "Unexpected server error" },
+			{ status: 500 }
+		);
 	}
 
 	return json({ ok: true });
