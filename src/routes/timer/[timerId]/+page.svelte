@@ -7,6 +7,8 @@
 	import waves from "$lib/assets/waves.webm";
 	import Timer from "@lucide/svelte/icons/timer";
 	import * as Card from "$lib/components/ui/card/";
+	import { Label } from "$lib/components/ui/label/index.js";
+	import { Switch } from "$lib/components/ui/switch/index.js";
 	import { public_cfg } from "$lib/public_cfg";
 	import { ModeWatcher, toggleMode } from "mode-watcher";
 	import { onMount } from "svelte";
@@ -44,6 +46,7 @@
 		}
 	}
 
+	let effectsEnabled = $derived(false);
 	let examState = $derived(getExamState());
 	let timerProgress = $derived(() => {
 		const left = data.timerInfo.time_end.getTime() - currentTime.getTime();
@@ -113,18 +116,26 @@
 	</a>
 </div>
 
+<div class="fixed bottom-10 right-10">
+	<div class="flex flex-row gap-3">
+		<Switch id="effects" bind:checked={effectsEnabled} />
+		<Label for="effects">Kolam berenang</Label>
+	</div>
+</div>
+
 <div
 	class="w-screen h-screen flex-1 flex flex-col p-8 gap-10 bg h-screen justify-center items-center"
 	style="--progress: {timerProgress()}"
 >
-	<div class="wave-bg">
-		<div class="wave-fill"></div>
+	{#if effectsEnabled}
+		<div class="wave-bg">
+			<div class="wave-fill"></div>
 
-		<video class="wave-video" autoplay loop muted>
-			<source src={waves} />
-		</video>
-	</div>
-
+			<video class="wave-video" autoplay loop muted>
+				<source src={waves} />
+			</video>
+		</div>
+	{/if}
 	<div
 		class="flex flex-col p-8 gap-10 bg h-screen justify-center items-center"
 	>
