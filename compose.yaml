@@ -1,14 +1,36 @@
 services:
   db:
-    image: postgres
-    restart: always
+    image: postgres:16
+    container_name: my_postgres
     ports:
       - 5432:5432
-    environment: 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d local"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+    environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: local
     volumes:
-      - pgdata:/var/lib/postgresql
+      - pgdata:/var/lib/postgresql/data
+  web:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sveltekit_app
+    ports:
+      - "3123:3000"
+    environment:
+      - DATABASE_URL=postgres://root:mysecretpassword@db:5432/local
+      - BETTER_AUTH_SECRET=secretkey
+      - BETTER_AUTH_URL=http://floatimer.my.page
+      - PUBLIC_FLOATIMER_TIMEZONE=Asia/Jakarta
+      - PUBLIC_TITLE=Timer Ujian Sekolah XYZ
+      - ADMIN_API_KEY=myapikey
+    restart: unless-stopped
 volumes:
   pgdata:
